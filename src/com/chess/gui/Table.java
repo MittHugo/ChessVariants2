@@ -628,7 +628,7 @@ public class Table extends Observable {
 			public String toString() {
 				return "Swarm";
 			}
-		}, Meedle {
+		}, Meddle {
 			@Override
 			public boolean isRegular() {
 				return false;

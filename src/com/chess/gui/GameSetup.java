@@ -3,6 +3,7 @@ package com.chess.gui;
 import com.chess.engine.Alliance;
 import com.chess.engine.player.Player;
 import com.chess.gui.Table.ChessType;
+import com.chess.gui.Table.MoveType;
 import com.chess.gui.Table.PlayerCount;
 import com.chess.gui.Table.PlayerType;
 
@@ -18,6 +19,7 @@ class GameSetup extends JDialog {
     private PlayerType bluePlayerType;
     private PlayerCount playerCount;
     private ChessType chessType;
+    private MoveType moveType;
 
     private JSpinner searchDepthSpinner;
 
@@ -176,6 +178,53 @@ class GameSetup extends JDialog {
         kingPromotionButton.addActionListener(modeListener);
         tripleCheckButton.addActionListener(modeListener);
 
+         // Game Mode Panel
+        final JPanel moveTypePanel = new JPanel(new GridLayout(0, 1));
+        gameModePanel.setBorder(BorderFactory.createTitledBorder("Select Move Mode"));
+        final JRadioButton regularMoveButton = new JRadioButton("Regualar");
+        final JRadioButton doubleMoveButton = new JRadioButton("Double Move");
+        final JRadioButton kungFuButton = new JRadioButton("Kung Fu");
+        final JRadioButton progressiveButton = new JRadioButton("Progressive");
+        final JRadioButton swarmButton = new JRadioButton("Swarm");
+        final JRadioButton meddleButton = new JRadioButton("Meddle");
+        final ButtonGroup moveGroup = new ButtonGroup();
+        moveGroup.add(regularMoveButton);
+        moveGroup.add(doubleMoveButton);
+        moveGroup.add(kungFuButton);
+        moveGroup.add(progressiveButton);
+        moveGroup.add(swarmButton);
+        moveGroup.add(meddleButton);
+        regularMoveButton.setSelected(true);
+
+        moveTypePanel.add(regularMoveButton);
+        moveTypePanel.add(doubleMoveButton);
+        moveTypePanel.add(progressiveButton);
+        moveTypePanel.add(kungFuButton);
+        moveTypePanel.add(swarmButton);
+        moveTypePanel.add(meddleButton);
+        
+
+        // Add Game Mode Panel to Main Panel
+        gbc.gridy = 0;
+        gbc.gridx = 1;
+        mainPanel.add(moveTypePanel, gbc);
+
+        // Add Action Listeners for Modes
+        ActionListener moveListener = e -> {
+            if (regularMoveButton.isSelected()) moveType = MoveType.Regular;
+            else if (doubleMoveButton.isSelected()) moveType = MoveType.DoubleMove;
+            else if (progressiveButton.isSelected()) moveType = MoveType.Progressive;
+            else if (kungFuButton.isSelected()) moveType = MoveType.KungFu;
+            else if (swarmButton.isSelected()) moveType = MoveType.Swarm;
+            else if (meddleButton.isSelected()) moveType = MoveType.Meddle;
+        };
+
+        regularChessButton.addActionListener(moveListener);
+        antiChessButton.addActionListener(moveListener);
+        conquerAllButton.addActionListener(moveListener);
+        kingPromotionButton.addActionListener(moveListener);
+        tripleCheckButton.addActionListener(moveListener);
+
         // Buttons Panel
         final JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         final JButton cancelButton = new JButton("Cancel");
@@ -202,7 +251,8 @@ class GameSetup extends JDialog {
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(okButton);
 
-        gbc.gridy = 5;
+        gbc.gridy = 4;
+        gbc.gridx = 1;
         mainPanel.add(buttonsPanel, gbc);
 
         add(mainPanel, BorderLayout.CENTER);
@@ -291,5 +341,9 @@ class GameSetup extends JDialog {
         l.setLabelFor(spinner);
         c.add(spinner);
         return spinner;
+    }
+
+    public MoveType getMoveType() {
+        return moveType;
     }
 }
