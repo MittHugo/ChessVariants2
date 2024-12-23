@@ -4,8 +4,6 @@ import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.pieces.*;
-import com.chess.gui.Table;
-import com.chess.gui.Table.PlayerCount;
 
 public class StandardBoard extends Board {
 	final static int boardDimension = 8;

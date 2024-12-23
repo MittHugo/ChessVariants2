@@ -4,6 +4,10 @@ import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Piece.PieceType;
 import com.chess.engine.pieces.Rook;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.chess.engine.board.Board.Builder;
 import com.chess.engine.board.variants.JesterChess.Jester;
 
@@ -43,7 +47,6 @@ public abstract class Move {
 		@Override
 		public Board execute(BuildHandler handler) {
 			Builder builder = handler.createBuilder();
-//			System.out.println(board.currentPlayer().getAlliance());
 			for (final Piece piece : this.board.getPieces()) {
 				if (!this.movedPiece.equals(piece) && !this.attackedPiece.equals(piece)) {
 					builder.setPiece(piece);
@@ -311,7 +314,67 @@ public abstract class Move {
 		}
 	}
 
-	public boolean isAttack() {
+	public static class AtomicMove extends Move {
+    	final Piece attackedPiece;
+    	public AtomicMove(final Board board, final Piece piece, final int destinationCoordinate) {
+    		super(board, piece, destinationCoordinate);
+    		this.attackedPiece = null;
+    	}
+    	
+    	@Override 
+    	public Board execute(BuildHandler handler) {
+    		final int[] bombArray = {1, -1, board.getNumberColumns(), -board.getNumberColumns(), 
+    				board.getNumberColumns()-1, board.getNumberColumns()+1, -board.getNumberColumns()-1, 
+    				-board.getNumberColumns()+1, 0
+    		};
+    		List<Piece> affectedPieces = new ArrayList<>();
+    		for(int canidatePostionOffset: bombArray) {
+    			int canidatePosion = this.destinationCoordinate+ canidatePostionOffset;
+    			if(board.isValidTileCoordinate(canidatePosion)) {
+    				if((board.FIRST_COLUMN[this.destinationCoordinate] && (canidatePostionOffset == -board.getNumberColumns()-1 || 
+    							canidatePostionOffset == -1 || canidatePostionOffset == board.getNumberColumns()-1))||
+    						(board.LAST_COLUMN[this.destinationCoordinate] && (canidatePostionOffset == -board.getNumberColumns()+1 
+    						|| canidatePostionOffset == 1 || canidatePostionOffset == board.getNumberColumns()+1))) {
+    					continue;
+    					
+    				}
+    				if(board.getTile(canidatePosion).isTileOccupied()) {
+    					if(!board.getTile(canidatePosion).getPiece().getPieceType().isKing()) {
+    						affectedPieces.add(board.getTile(canidatePosion).getPiece());
+    					}
+    				}
+    			}
+    		}
+    		Builder builder = handler.createBuilder();
+    		for(final Piece piece: this.board.currentPlayer().getActivePieces()) {
+    			boolean isExploded = false;
+    			for(Piece pieceAffected: affectedPieces) {
+    				if(pieceAffected.equals(piece)) {
+    					isExploded = true;
+    				}
+    			}
+    			if(!this.movedPiece.equals(piece) && !isExploded) {
+    				builder.setPiece(piece);
+    			}
+    		}
+    		
+    		for(final Piece piece: this.board.currentPlayer().getOpponent().getActivePieces()) {
+    			boolean isExploded = false;
+    			for(Piece pieceAffected: affectedPieces) {
+    				if(pieceAffected.equals(piece)) {
+    					isExploded = true;
+    				}
+    			}
+    			if(!isExploded) {
+    				builder.setPiece(piece);
+    			}
+    		}
+    		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+    		return builder.build();
+    	}
+    }
+
+    public boolean isAttack() {
 		return false;
 	}
 

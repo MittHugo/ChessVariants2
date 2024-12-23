@@ -9,10 +9,12 @@ import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
+import com.chess.engine.board.Move.AtomicMove;
 import com.chess.engine.board.Move.AttackMove;
 import com.chess.engine.board.Move.MajorMove;
 import com.chess.engine.pieces.Vectors.AttackType;
 import com.chess.engine.pieces.Vectors.MotionType;
+import com.chess.gui.Table;
 
 public class PieceUtils {
 
@@ -269,8 +271,12 @@ public class PieceUtils {
 						final Piece pieceAtDestination = canidateDestinationTile.getPiece();
 						final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 						if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())) {
-							legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
+							if(Table.get().isAtomic()) {
+								legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+							} else {
+								legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
 									pieceAtDestination));
+							}
 						}
 					}
 					break;
@@ -299,8 +305,12 @@ public class PieceUtils {
 				final Piece pieceAtDestination = canidateDestinationTile.getPiece();
 				final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 				if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())) {
-					legalMoves.add(
-							new AttackMove(board, piece, canidateDestinationCoordinate, pieceAtDestination));
+					if(Table.get().isAtomic()) {
+						legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+					} else {
+						legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
+							pieceAtDestination));
+					}
 				}
 			}
 		}
@@ -332,8 +342,12 @@ public class PieceUtils {
 					final Piece pieceAtDestination = canidateDestinationTile.getPiece();
 					final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 					if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())) {
-						legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
+						if(Table.get().isAtomic()) {
+							legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+						} else {
+							legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
 								pieceAtDestination));
+						}
 					}
 				}
 			}
@@ -370,8 +384,12 @@ public class PieceUtils {
 							final Piece pieceAtDestination = tile.getPiece();
 							final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 							if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())&& vector.attackType != AttackType.MotionOnly) {
-								legalMoves.add(new AttackMove(board, piece, nextCanidateDestinationCoordinate,
+								if(Table.get().isAtomic()) {
+									legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+								} else {
+									legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
 										pieceAtDestination));
+								}
 							}
 						}
 						Vectors[] instancVector = { 
@@ -397,8 +415,12 @@ public class PieceUtils {
 							final Piece pieceAtDestination = tile.getPiece();
 							final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 							if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())&& vector.attackType != AttackType.MotionOnly) {
-								legalMoves.add(new AttackMove(board, piece, nextCanidateDestinationCoordinate,
+								if(Table.get().isAtomic()) {
+									legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+								} else {
+									legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
 										pieceAtDestination));
+								}
 							}
 							jumpCount++;
 						}
@@ -426,7 +448,12 @@ public class PieceUtils {
 				final Piece pieceAtDestination = canidateDestinationTile.getPiece();
 				final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 				if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())) {
-					legalMoves.add(new AttackMove(board, piece, jumpCoordinate, pieceAtDestination));
+					if(Table.get().isAtomic()) {
+						legalMoves.add(new AtomicMove(board, piece, jumpCoordinate));
+					} else {
+						legalMoves.add(new AttackMove(board, piece, jumpCoordinate,
+							pieceAtDestination));
+					}
 				}
 			}
 			if (!board.getTile(jumpCoordinate).isTileOccupied()) {
@@ -451,8 +478,12 @@ public class PieceUtils {
 								final Piece pieceAtDestination = canidateDestinationTileExpanded.getPiece();
 								final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 								if (piece.pieceAlliance.canAttack(pieceAtDestination.getAlliance())) {
-									legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
+									if(Table.get().isAtomic()) {
+										legalMoves.add(new AtomicMove(board, piece, canidateDestinationCoordinate));
+									} else {
+										legalMoves.add(new AttackMove(board, piece, canidateDestinationCoordinate,
 											pieceAtDestination));
+									}
 								}
 								break;
 							}
