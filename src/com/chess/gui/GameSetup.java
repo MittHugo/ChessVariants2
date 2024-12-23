@@ -371,4 +371,19 @@ class GameSetup extends JDialog {
     public MoveType getMoveType() {
         return moveType;
     }
+    public boolean isDoubleArmy() {
+        return isDoubleArmy;
+    }
+    public boolean isChesireCat() {
+        return isChesireCat;
+    }
+    public boolean isAtomic() {
+        return isAtomic;
+    }
+    public boolean noAdders() {
+        return !(isDoubleArmy && isChesireCat && isAtomic && isLookingGlass);
+    }
+    public boolean isLookingGlass() {
+        return isLookingGlass;
+    }
 }

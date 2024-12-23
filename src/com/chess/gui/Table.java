@@ -672,13 +672,60 @@ public class Table extends Observable {
     	if(Table.get() != null ) {
         	if(gameSetup.getChessType() != null) {
         		return gameSetup.getChessType();
-        	} else {
-        		return ChessType.Regular;
-        	}
-    	} else {
-    		return ChessType.Regular;
+        	} 
     	}
+    	return ChessType.Regular;
     }
+
+	public MoveType getMoveType() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.getMoveType();
+			}
+		}
+		return MoveType.Regular;
+	}
+
+	public boolean isDoubleChess() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.isDoubleArmy();
+			}
+		}
+		return false;
+	}
+	public boolean isLookingGlass() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.isLookingGlass();
+			}
+		}
+		return false;
+	}
+	public boolean isChesireCat() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.isChesireCat();
+			}
+		}
+		return false;
+	}
+	public boolean noAdders() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.noAdders();
+			}
+		}
+		return true;
+	}
+	public boolean isAtomic() {
+		if(Table.get() != null) {
+			if(gameSetup.getMoveType() != null) {
+				return gameSetup.isAtomic();
+			}
+		}
+		return false;
+	}
 
 
 	protected void moveMadeUpdate(PlayerType playerType) {
