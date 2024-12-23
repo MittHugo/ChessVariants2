@@ -577,6 +577,69 @@ public class Table extends Observable {
 		};
 		public abstract boolean isRegular();
 	}
+	public enum MoveType implements TypeEnum {
+		Regular {
+			@Override
+			public boolean isRegular() {
+				return true;
+			}
+			
+			@Override
+			public String toString() {
+				return "Regular";
+			}
+		}, DoubleMove {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
+			
+			@Override
+			public String toString() {
+				return "Double Move";
+			}
+		}, KungFu {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
+			
+			@Override
+			public String toString() {
+				return "Kung Fu";
+			}
+		}, Progressive {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
+			
+			@Override
+			public String toString() {
+				return "Progressive";
+			}
+		}, Swarm {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
+
+			@Override
+			public String toString() {
+				return "Swarm";
+			}
+		}, Meedle {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
+
+			@Override
+			public String toString() {
+				return "Meedle";
+			}
+		};
+	}
 
 	public PlayerCount getPlayerCount() {
 		if (gameSetup.getPlayerCount() != null) {
