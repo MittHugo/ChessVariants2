@@ -1,15 +1,11 @@
 package com.chess;
 
-//import com.chess.engine.board.variants.DusnanyChess.DusnanyPlayer;
-//import com.chess.engine.board.variants.DusnanyChess.DusnanyPlayer;
 import com.chess.gui.Table;
 
 public class JChess {
 	public static void main(String[] args) { 
 		
-		//TODO fix hasEscapeMoves() player - fix castling - fix piece moves
-		// TODO change castling when castling fixed
-		// TODO Fix problem w/ pieces when board isn't square
+		//TODO fix castling - fix piece moves
 		// Muscateer Chess - Pre-Chess - Polgar reform chess - Transcendental Chess (fix transpose) - Way of Knight
 		//TODO fix first jump pattern knight for Flacon-HunterChess
 		// 2000 AD
