@@ -165,11 +165,34 @@ public class BoardUtils {
 						BoardUtils.getDimensionFor4Player(numTilesPerColumn, numberOfLines), 
 						BoardUtils.getDimensionFor4Player(numTilesPerColumn, numberOfLines), blackPawnLine, Pawn.class, numberOfLines);
 			}else {
-				BoardUtils.buildBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
+				if(Table.get().isDoubleChess()) {
+					BoardUtils.buildDoubleBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
+				} else {
+					BoardUtils.buildBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
+				}
 			}
 		} else {
 			BoardUtils.buildBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
 		}
+	}
+
+	private static void buildDoubleBoard(Class<? extends Piece>[] classes, Builder builder,
+			int numTilesPerColumn, int numTilesPerRow, int blackPawnLine, Class<? extends Piece> pawnClass) {
+				Class<? extends Piece>[] doubleClasses = new Class[1000];
+				for (int i = 0; i < classes.length; i++) {
+					if (i < numTilesPerColumn) {
+						// First set of rows
+						doubleClasses[i] = classes[i];
+						doubleClasses[numTilesPerColumn + i] = classes[i];
+					} else {
+						// Rows beyond the first set
+						int desiredRow = i / numTilesPerColumn;
+						int adjustedIndex = i % numTilesPerColumn + (desiredRow * numTilesPerColumn * 2);
+						doubleClasses[adjustedIndex] = classes[i];
+						doubleClasses[adjustedIndex+numTilesPerColumn] = classes[i];
+					}
+				}
+				BoardUtils.buildBoard(doubleClasses, builder, numTilesPerColumn*2, numTilesPerRow, blackPawnLine, Pawn.class);
 	}
 	private static <T extends Piece> void buildPiece(Class<T> pieceClass, Builder builder, Alliance alliance,
 			int position) {
@@ -207,18 +230,15 @@ public class BoardUtils {
 
 		public EmptyPiece(Alliance pieceAlliance, int piecePosition, boolean isFirstMove) {
 			super(null, pieceAlliance, piecePosition, isFirstMove);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public Piece movePiece(Move move) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public Collection<Move> calculateLegalMoves(Board board) {
-			// TODO Auto-generated method stub
 			return new ArrayList<>();
 		}
 

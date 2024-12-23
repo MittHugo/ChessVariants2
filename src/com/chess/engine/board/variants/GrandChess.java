@@ -34,17 +34,8 @@ public class GrandChess extends Board {
 				EmptyPiece.class, EmptyPiece.class, EmptyPiece.class, EmptyPiece.class, EmptyPiece.class,
 				EmptyPiece.class, Rook.class, EmptyPiece.class, Knight.class, Bishop.class, Queen.class, King.class,
 				Chancellor.class, Archbishop.class, Bishop.class, Knight.class, EmptyPiece.class};
-		if(Table.get() != null) {
-			if(Table.get().getPlayerCount() != PlayerCount.Regular) {
-				BoardUtils.buildBoard(classes, builder, 
-						BoardUtils.getDimensionFor4Player(boardDimension, numberOfRowsUsed), 
-						BoardUtils.getDimensionFor4Player(boardDimension, numberOfRowsUsed), 3, Pawn.class, numberOfRowsUsed);
-			}else {
-				BoardUtils.buildBoard(classes, builder, boardDimension, boardDimension, 3, Pawn.class, numberOfRowsUsed);
-			}
-		} else {
-			BoardUtils.buildBoard(classes, builder, boardDimension, boardDimension, 3, Pawn.class, numberOfRowsUsed);
-		}
+		BoardUtils.betterBuildBoard(classes, builder, boardDimension, boardDimension, 3, Pawn.class, numberOfRowsUsed);
+
 //		BoardUtils.buildBoard(classes, builder, 10, 10, 3, Pawn.class);
 		// white to move
 		builder.setMoveMaker(Alliance.WHITE);

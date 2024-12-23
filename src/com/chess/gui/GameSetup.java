@@ -20,10 +20,10 @@ class GameSetup extends JDialog {
     private PlayerCount playerCount;
     private ChessType chessType;
     private MoveType moveType;
-    boolean isLookingGlass;
-    boolean isDoubleArmy;
-    boolean isChesireCat;
-    boolean isAtomic;
+    boolean isLookingGlass = false;
+    boolean isDoubleArmy = false;
+    boolean isChesireCat = false;
+    boolean isAtomic = false;
 
     private JSpinner searchDepthSpinner;
 
@@ -258,6 +258,7 @@ class GameSetup extends JDialog {
             }
             isAtomic = atomic.isSelected();
             isDoubleArmy = doubleArmy.isSelected();
+            System.out.println(isDoubleArmy);
             isChesireCat = cheshireCat.isSelected();
             isLookingGlass = lookingGlass.isSelected();
             setVisible(false);

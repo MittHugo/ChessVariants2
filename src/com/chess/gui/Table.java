@@ -189,7 +189,6 @@ public class Table extends Observable {
 
 		@Override
 		public void update(Observable o, Object arg) {
-			System.out.println("here");
 			if (Table.get().getGameSetup().isAIPlayer(Table.get().getGameBoard().currentPlayer())
 					&& !Table.get().getGameBoard().currentPlayer().isInCheckmate(Table.get().getHandler())) {// &&!Table.get().getGameBoard().currentPlayer().isInStalemate()
 				final AIThinkTank thinkTank = new AIThinkTank();
@@ -290,6 +289,7 @@ public class Table extends Observable {
 		final List<TilePanel> boardTiles;
 
 		BoardPanel() {
+			
 			super(new GridLayout(chessBoard.getNumberRows(), chessBoard.getNumberColumns()));
 			this.boardTiles = new ArrayList<>();
 
@@ -334,7 +334,6 @@ public class Table extends Observable {
 						if(Table.get().getPlayerCount().isRegular()) {
 							Table.get().reset();
 						} else {
-							System.out.println("here");
 							Table.get().getGameBoard().getBuilder().removePieces((Table.get().getGameBoard().currentPlayer()));
 						}
 						
@@ -642,11 +641,12 @@ public class Table extends Observable {
 	}
 
 	public PlayerCount getPlayerCount() {
-		if (gameSetup.getPlayerCount() != null) {
-			return gameSetup.getPlayerCount();
-		} else {
-			return PlayerCount.Regular;
+		if(Table.get() != null) {
+			if (gameSetup.getPlayerCount() != null) {
+				return gameSetup.getPlayerCount();
+			}
 		}
+		return PlayerCount.Regular;
 	}
 	protected boolean isEndGame() {
 		if(Table.get().getChessType().isRegular() || Table.get().getChessType() == ChessType.AnitChess) {
@@ -688,41 +688,31 @@ public class Table extends Observable {
 
 	public boolean isDoubleChess() {
 		if(Table.get() != null) {
-			if(gameSetup.getMoveType() != null) {
-				return gameSetup.isDoubleArmy();
-			}
+			return gameSetup.isDoubleArmy();
 		}
 		return false;
 	}
 	public boolean isLookingGlass() {
 		if(Table.get() != null) {
-			if(gameSetup.getMoveType() != null) {
-				return gameSetup.isLookingGlass();
-			}
+			return gameSetup.isLookingGlass();
 		}
 		return false;
 	}
 	public boolean isChesireCat() {
 		if(Table.get() != null) {
-			if(gameSetup.getMoveType() != null) {
-				return gameSetup.isChesireCat();
-			}
+			return gameSetup.isChesireCat();
 		}
 		return false;
 	}
 	public boolean noAdders() {
 		if(Table.get() != null) {
-			if(gameSetup.getMoveType() != null) {
-				return gameSetup.noAdders();
-			}
+			return gameSetup.noAdders();
 		}
 		return true;
 	}
 	public boolean isAtomic() {
 		if(Table.get() != null) {
-			if(gameSetup.getMoveType() != null) {
-				return gameSetup.isAtomic();
-			}
+			return gameSetup.isAtomic();
 		}
 		return false;
 	}

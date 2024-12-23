@@ -19,17 +19,7 @@ public class StandardBoard extends Board {
 		Class<? extends Piece>[] classes = new Class[] { Rook.class, Knight.class, Bishop.class, Queen.class,
 				King.class, Bishop.class, Knight.class, Rook.class };
 //		Class<? extends Piece> pawnClass =BerolinaPawn.class;
-		if(Table.get() != null) {
-			if(Table.get().getPlayerCount() != PlayerCount.Regular) {
-				BoardUtils.buildBoard(classes, builder, 
-						BoardUtils.getDimensionFor4Player(boardDimension, numberOfRowsUsed), 
-						BoardUtils.getDimensionFor4Player(boardDimension, numberOfRowsUsed), 2, Pawn.class, numberOfRowsUsed);
-			}else {
-				BoardUtils.buildBoard(classes, builder, boardDimension, boardDimension, 2, Pawn.class, numberOfRowsUsed);
-			}
-		} else {
-			BoardUtils.buildBoard(classes, builder, boardDimension, boardDimension, 2, Pawn.class, numberOfRowsUsed);
-		}
+		BoardUtils.betterBuildBoard(classes, builder, boardDimension, boardDimension, 2, Pawn.class, numberOfRowsUsed);
 
 		// white to move
 		builder.setMoveMaker(Alliance.WHITE);
