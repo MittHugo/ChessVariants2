@@ -13,17 +13,17 @@ import com.chess.engine.pieces.Piece;
 import com.chess.engine.player.MoveStatus;
 import com.chess.engine.player.MoveTransition;
 import com.chess.engine.player.Player;
-import com.chess.engine.player.WhitePlayer;
+import com.chess.engine.player.RedPlayer;
 
-public class DoubleWhitePlayer extends WhitePlayer {
+public class DoubleRedPlayer extends RedPlayer {
 	Piece otherKing;
 	boolean otherKingInCheck;
 	
-	public DoubleWhitePlayer(final Board board, final Collection<Move> whiteStandardLegalMoves,
-			final Collection<Move> blackStandardLegalMoves) {
-		super(board, whiteStandardLegalMoves, blackStandardLegalMoves);
+	public DoubleRedPlayer(final Board board, final Collection<Move> legalMoves,
+			final Collection<Move> opponentMoves) {
+		super(board, legalMoves, opponentMoves);
 		otherKing = establishOtherKing();
-		otherKingInCheck = !Player.calculateAttacksOnTile(this.otherKing.getPiecePosition(), whiteStandardLegalMoves).isEmpty();
+		otherKingInCheck = !Player.calculateAttacksOnTile(this.otherKing.getPiecePosition(), legalMoves).isEmpty();
 		
 	}
 

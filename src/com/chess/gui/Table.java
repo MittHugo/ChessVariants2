@@ -569,6 +569,11 @@ public class Table extends Observable {
 			public boolean isRegular() {
 				return false;
 			}
+		}, TripleCheck {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
 		};
 		public abstract boolean isRegular();
 	}

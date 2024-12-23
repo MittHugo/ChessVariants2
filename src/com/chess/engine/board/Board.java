@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-//import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +15,10 @@ import com.chess.engine.pieces.PieceUtils.NullPiece;
 import com.chess.engine.player.BlackPlayer;
 import com.chess.engine.player.BlackPlayerHandler;
 import com.chess.engine.player.BluePlayer;
+import com.chess.engine.player.BluePlayerHandler;
 import com.chess.engine.player.Player;
 import com.chess.engine.player.RedPlayer;
+import com.chess.engine.player.RedPlayerHandler;
 import com.chess.engine.player.WhitePlayer;
 import com.chess.engine.player.WhitePlayerHandler;
 import com.chess.gui.Table;
@@ -160,6 +161,66 @@ public class Board {
 		updatePieceValues();
 		this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer,this.redPlayer, this.bluePlayer);
 	}
+	public Board(final Builder builder, final int NUM_TILES_PER_ROW, final int NUM_TILES_PER_COLUMN, final 
+			boolean canCastle, final boolean canEnPassant, final boolean canPawnJump, final boolean canPromote,
+			final int numberOfRowsUsed, final WhitePlayerHandler whitePlayerHandler, final BlackPlayerHandler blackPlayerHandler, 
+			final RedPlayerHandler redPlayerHandler, final BluePlayerHandler bluePlayerHandler) {
+
+		this.canCastle = canCastle;
+		this.canEnPassant = canEnPassant;
+		this.canPromote = canPromote;
+		this.canPawnJump = canPawnJump;
+		if(!(Table.get() == null)) {
+			if(Table.get().getPlayerCount() == PlayerCount.Regular) {
+				this.NUM_TILES = NUM_TILES_PER_COLUMN * NUM_TILES_PER_ROW;
+				this.NUM_TILES_PER_COLUMN = NUM_TILES_PER_COLUMN;
+				this.NUM_TILES_PER_ROW = NUM_TILES_PER_ROW;
+			} else {
+				this.NUM_TILES = (int)Math.pow(((numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN),2);
+//				System.out.println(NUM_TILES);
+				this.NUM_TILES_PER_COLUMN = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
+				this.NUM_TILES_PER_ROW = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
+			}
+		} else {
+			this.NUM_TILES = NUM_TILES_PER_COLUMN * NUM_TILES_PER_ROW;
+			this.NUM_TILES_PER_COLUMN = NUM_TILES_PER_COLUMN;
+			this.NUM_TILES_PER_ROW = NUM_TILES_PER_ROW;
+		}
+		this.builder = builder;
+		this.numberOfRowsUsed = numberOfRowsUsed;
+		
+		for(int i = 0; i < this.NUM_TILES_PER_COLUMN; i++) {
+			isInDesiredColumn[i] = initColumn(i);
+		}
+		
+		FIRST_COLUMN = initColumn(0);
+		SECOND_COLUMN = initColumn(1);
+		THIRD_COLUMN = initColumn(2);
+		THIRD_TO_LAST_COLUMN = initColumn(this.NUM_TILES_PER_COLUMN-3);
+		SECOND_TO_LAST_COLUMN = initColumn(this.NUM_TILES_PER_COLUMN-2);
+		LAST_COLUMN = initColumn(this.NUM_TILES_PER_COLUMN-1);
+		
+		FIRST_ROW = initRow(0);
+		SECOND_ROW = initRow(this.NUM_TILES_PER_COLUMN);
+		SECOND_LAST_ROW = initRow(this.NUM_TILES_PER_COLUMN*(this.NUM_TILES_PER_ROW-2));
+//		System.out.println(this.NUM_TILES_PER_ROW);
+		LAST_ROW = initRow(this.NUM_TILES_PER_COLUMN*(this.NUM_TILES_PER_ROW-1));
+		
+		
+		this.gameBoard = createGameBoard(builder, this);
+		this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
+		this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
+		this.redPieces = calculateActivePieces(this.gameBoard, Alliance.RED);
+		this.bluePieces = calculateActivePieces(this.gameBoard, Alliance.BLUE);
+		this.enPassantPawn = builder.enPassantPawn;
+//		whiteStandardLegalMoves.addAll(calculateLegalMoves(this.whitePieces));
+//		blackStandardLegalMoves.addAll(calculateLegalMoves(this.blackPieces));
+//		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+//		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
+		setupPlayers(whitePlayerHandler, blackPlayerHandler, bluePlayerHandler, redPlayerHandler);
+		updatePieceValues();
+		this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer,this.redPlayer, this.bluePlayer);
+	}
 	
 	public Board(final Builder builder, final int NUM_TILES_PER_ROW, final int NUM_TILES_PER_COLUMN, final 
 			boolean canCastle, final boolean canEnPassant, final boolean canPawnJump, final boolean canPromote, 
@@ -261,6 +322,43 @@ public class Board {
 	    } else {
             this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
             this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
+	    }
+	}
+	private void setupPlayers(WhitePlayerHandler whitePlayerHandler,BlackPlayerHandler blackPlayerHandler,
+						BluePlayerHandler bluePlayerHandler,RedPlayerHandler redPlayerHandler) {
+	    // Calculate legal moves for each set of pieces
+	    whiteStandardLegalMoves.addAll(calculateLegalMoves(this.whitePieces));
+	    blackStandardLegalMoves.addAll(calculateLegalMoves(this.blackPieces));
+
+	    if (Table.get() != null) {
+	        if (Table.get().getPlayerCount() != null) {
+	            // Four Teams Mode (Red & Blue vs. White & Black)
+	            if (Table.get().getPlayerCount() == PlayerCount.FourTeams) {
+	        	    redStandardLegalMoves.addAll(calculateLegalMoves(this.redPieces));
+	        	    blueStandardLegalMoves.addAll(calculateLegalMoves(this.bluePieces));
+	                this.whitePlayer = whitePlayerHandler.createPlayer(this, whiteStandardLegalMoves, combineLegalMoves(redStandardLegalMoves, blueStandardLegalMoves));
+	                this.blackPlayer = blackPlayerHandler.createPlayer(this, blackStandardLegalMoves, combineLegalMoves(redStandardLegalMoves, blueStandardLegalMoves));
+	                this.redPlayer = redPlayerHandler.createPlayer(this, redStandardLegalMoves, combineLegalMoves(whiteStandardLegalMoves, blackStandardLegalMoves));
+	                this.bluePlayer = bluePlayerHandler.createPlayer(this, blueStandardLegalMoves, combineLegalMoves(whiteStandardLegalMoves, blackStandardLegalMoves));
+
+	            // Four Opponents Mode (Each player is an individual opponent)
+	            } else if (Table.get().getPlayerCount() == PlayerCount.FourOpponents) {
+	        	    redStandardLegalMoves.addAll(calculateLegalMoves(this.redPieces));
+	        	    blueStandardLegalMoves.addAll(calculateLegalMoves(this.bluePieces));
+	                this.whitePlayer = whitePlayerHandler.createPlayer(this, whiteStandardLegalMoves, combineLegalMoves(blackStandardLegalMoves, redStandardLegalMoves, blueStandardLegalMoves));
+	                this.blackPlayer = blackPlayerHandler.createPlayer(this, blackStandardLegalMoves, combineLegalMoves(whiteStandardLegalMoves, redStandardLegalMoves, blueStandardLegalMoves));
+	                this.redPlayer = redPlayerHandler.createPlayer(this, redStandardLegalMoves, combineLegalMoves(whiteStandardLegalMoves, blackStandardLegalMoves, blueStandardLegalMoves));
+	                this.bluePlayer = bluePlayerHandler.createPlayer(this, blueStandardLegalMoves, combineLegalMoves(whiteStandardLegalMoves, blackStandardLegalMoves, redStandardLegalMoves));
+
+	            // Default Two-Player Mode (White vs. Black)
+	            } else {
+	                this.whitePlayer=whitePlayerHandler.createPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+	                this.blackPlayer = blackPlayerHandler.createPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
+	            }
+	        }
+	    } else {
+            this.whitePlayer = whitePlayerHandler.createPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+            this.blackPlayer = blackPlayerHandler.createPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 	    }
 	}
 	private Collection<Move> combineLegalMoves(Collection<Move>... moves) {
@@ -581,7 +679,7 @@ public class Board {
 		public Pawn enPassantPawn;
 		public Piece lastPieceMoved;
 		public boolean isLastMoveAttack;
-		
+
 		public Builder() {
 			this.boardConfig = new HashMap<>();
 			if(lastPieceMoved == null) {

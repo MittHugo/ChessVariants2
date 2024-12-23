@@ -142,17 +142,20 @@ class GameSetup extends JDialog {
         final JRadioButton antiChessButton = new JRadioButton("Anti Chess");
         final JRadioButton conquerAllButton = new JRadioButton("Conquer All");
         final JRadioButton kingPromotionButton = new JRadioButton("King Promotion");
+        final JRadioButton tripleCheckButton = new JRadioButton("Triple Check");
         final ButtonGroup modeGroup = new ButtonGroup();
         modeGroup.add(regularChessButton);
         modeGroup.add(antiChessButton);
         modeGroup.add(conquerAllButton);
         modeGroup.add(kingPromotionButton);
+        modeGroup.add(tripleCheckButton);
         regularChessButton.setSelected(true);
 
         gameModePanel.add(regularChessButton);
         gameModePanel.add(antiChessButton);
         gameModePanel.add(conquerAllButton);
         gameModePanel.add(kingPromotionButton);
+        gameModePanel.add(tripleCheckButton);
 
         // Add Game Mode Panel to Main Panel
         gbc.gridy = 4;
@@ -164,12 +167,14 @@ class GameSetup extends JDialog {
             else if (antiChessButton.isSelected()) chessType = ChessType.AnitChess;
             else if (conquerAllButton.isSelected()) chessType = ChessType.ConquerAll;
             else if (kingPromotionButton.isSelected()) chessType = ChessType.KingPromotion;
+            else if(tripleCheckButton.isSelected()) chessType = ChessType.TripleCheck;
         };
 
         regularChessButton.addActionListener(modeListener);
         antiChessButton.addActionListener(modeListener);
         conquerAllButton.addActionListener(modeListener);
         kingPromotionButton.addActionListener(modeListener);
+        tripleCheckButton.addActionListener(modeListener);
 
         // Buttons Panel
         final JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

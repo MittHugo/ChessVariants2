@@ -37,6 +37,7 @@ import com.chess.engine.board.variants.StratomicChess.StratomicBuilder;
 import com.chess.engine.board.variants.SuperXChess.SuperXBuilder;
 import com.chess.engine.board.variants.TorpedoChess.TorpedoBuilder;
 import com.chess.engine.board.variants.Transcendental.TranscendentalBuilder;
+import com.chess.engine.board.variants.TweedleChess.TweedleChessBuilder;
 import com.chess.engine.board.variants.Weak.WeakBuilder;
 import com.chess.engine.board.variants.WildebeastChess.WildebeastBuilder;
 import com.chess.engine.board.variants.WolfChess.WolfBuilder;
@@ -359,6 +360,26 @@ public enum Variants {
         @Override
         public BuildHandler getHandler() {
             return new BuildHandler<>(DoubleBuilder.class);
+        }
+
+		@Override
+		public VariantType varaintType() {
+			return VariantType.FIXED_POS;
+		}
+    },TWEEDLE_CHESS {
+        @Override
+        public Board startBoard() {
+            return TweedleChess.createBoard();
+        }
+
+        @Override
+        public String getName() {
+            return "Tweedle Chess";
+        }
+
+        @Override
+        public BuildHandler getHandler() {
+            return new BuildHandler<>(TweedleChessBuilder.class);
         }
 
 		@Override

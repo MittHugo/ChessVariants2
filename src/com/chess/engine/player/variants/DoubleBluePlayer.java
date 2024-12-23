@@ -10,20 +10,20 @@ import com.chess.engine.board.BuildHandler;
 import com.chess.engine.board.Move;
 import com.chess.engine.pieces.King;
 import com.chess.engine.pieces.Piece;
+import com.chess.engine.player.BluePlayer;
 import com.chess.engine.player.MoveStatus;
 import com.chess.engine.player.MoveTransition;
 import com.chess.engine.player.Player;
-import com.chess.engine.player.WhitePlayer;
 
-public class DoubleWhitePlayer extends WhitePlayer {
+public class DoubleBluePlayer extends BluePlayer {
 	Piece otherKing;
 	boolean otherKingInCheck;
 	
-	public DoubleWhitePlayer(final Board board, final Collection<Move> whiteStandardLegalMoves,
-			final Collection<Move> blackStandardLegalMoves) {
-		super(board, whiteStandardLegalMoves, blackStandardLegalMoves);
+	public DoubleBluePlayer(final Board board, final Collection<Move> legalMoves,
+			final Collection<Move> opponentMoves) {
+		super(board, legalMoves, opponentMoves);
 		otherKing = establishOtherKing();
-		otherKingInCheck = !Player.calculateAttacksOnTile(this.otherKing.getPiecePosition(), whiteStandardLegalMoves).isEmpty();
+		otherKingInCheck = !Player.calculateAttacksOnTile(this.otherKing.getPiecePosition(), legalMoves).isEmpty();
 		
 	}
 
