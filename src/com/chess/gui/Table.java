@@ -649,7 +649,7 @@ public class Table extends Observable {
 		}
 	}
 	protected boolean isEndGame() {
-		if(Table.get().getChessType().isRegular()) {
+		if(Table.get().getChessType().isRegular() || Table.get().getChessType() == ChessType.AnitChess) {
 			return Table.get().getGameBoard().currentPlayer().isInCheckmate(Table.get().getHandler()) ||
 					Table.get().getGameBoard().currentPlayer().isInStalemate(Table.get().getHandler());
 		} else if(Table.get().getChessType() == ChessType.ConquerAll) {

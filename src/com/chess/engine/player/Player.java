@@ -150,11 +150,12 @@ public abstract class Player {
 			return new MoveTransition(this.board, move, MoveStatus.IllegalMove);
 		}
 		final Board transitionBoard = move.execute(handler);
-		if(Table.get().getChessType().isRegular() || Table.get().getChessType() == ChessType.KingPromotion) {
+		if(Table.get().getChessType() != ChessType.ConquerAll) {
 			if(!Player.getKingAttacks(transitionBoard).isEmpty()) {
 				return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
 			}
-		} else if(Table.get().getChessType() == ChessType.AnitChess) {
+		}
+		if(Table.get().getChessType() == ChessType.AnitChess) {
 			if(!move.isAttack() && hasAttackMove()) {
 				return new MoveTransition(this.board, move, MoveStatus.MUST_ATTACK);
 			}
