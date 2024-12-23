@@ -274,10 +274,10 @@ class GameSetup extends JDialog {
         searchPanel.add(new JLabel("Search Depth"));
         this.searchDepthSpinner = addLabeledSpinner(searchPanel, "Depth", new SpinnerNumberModel(3, 0, Integer.MAX_VALUE, 1));
 
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         mainPanel.add(searchPanel, gbc);
 
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.gridx = 1;
         mainPanel.add(buttonsPanel, gbc);
 
