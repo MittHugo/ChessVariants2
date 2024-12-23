@@ -8,7 +8,6 @@ import com.chess.gui.Table.PlayerType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class GameSetup extends JDialog {
@@ -19,7 +18,6 @@ class GameSetup extends JDialog {
     private PlayerType bluePlayerType;
     private PlayerCount playerCount;
     private ChessType chessType;
-    private boolean isAntiChessMode = false;
 
     private JSpinner searchDepthSpinner;
 

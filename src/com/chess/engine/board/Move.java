@@ -6,7 +6,6 @@ import com.chess.engine.pieces.Piece.PieceType;
 import com.chess.engine.pieces.Rook;
 import com.chess.engine.board.Board.Builder;
 import com.chess.engine.board.variants.JesterChess.Jester;
-import com.chess.engine.board.Board;
 
 public abstract class Move {
 	protected final Board board;

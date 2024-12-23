@@ -6,9 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,11 +17,8 @@ import java.util.function.Supplier;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BuildHandler;
-import com.chess.engine.board.Board.Builder;
 import com.chess.engine.board.variants.StandardBoard;
 import com.chess.engine.board.variants.Variants;
 import com.chess.engine.board.variants.Variants.VariantType;
