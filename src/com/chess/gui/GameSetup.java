@@ -20,6 +20,10 @@ class GameSetup extends JDialog {
     private PlayerCount playerCount;
     private ChessType chessType;
     private MoveType moveType;
+    boolean isLookingGlass;
+    boolean isDoubleArmy;
+    boolean isChesireCat;
+    boolean isAtomic;
 
     private JSpinner searchDepthSpinner;
 
@@ -128,15 +132,6 @@ class GameSetup extends JDialog {
         // Add Player Panel to Main Panel
         gbc.gridy = 2;
         mainPanel.add(playerPanel, gbc);
-
-        // Search Depth Spinner
-        final JPanel searchPanel = new JPanel();
-        searchPanel.add(new JLabel("Search Depth"));
-        this.searchDepthSpinner = addLabeledSpinner(searchPanel, "Depth", new SpinnerNumberModel(3, 0, Integer.MAX_VALUE, 1));
-
-        gbc.gridy = 3;
-        mainPanel.add(searchPanel, gbc);
-
         // Game Mode Panel
         final JPanel gameModePanel = new JPanel(new GridLayout(0, 1));
         gameModePanel.setBorder(BorderFactory.createTitledBorder("Select Game Mode"));
@@ -160,7 +155,7 @@ class GameSetup extends JDialog {
         gameModePanel.add(tripleCheckButton);
 
         // Add Game Mode Panel to Main Panel
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         mainPanel.add(gameModePanel, gbc);
 
         // Add Action Listeners for Modes
@@ -178,9 +173,9 @@ class GameSetup extends JDialog {
         kingPromotionButton.addActionListener(modeListener);
         tripleCheckButton.addActionListener(modeListener);
 
-         // Game Mode Panel
+        // Game Mode Panel
         final JPanel moveTypePanel = new JPanel(new GridLayout(0, 1));
-        gameModePanel.setBorder(BorderFactory.createTitledBorder("Select Move Mode"));
+        moveTypePanel.setBorder(BorderFactory.createTitledBorder("Select Move Mode"));
         final JRadioButton regularMoveButton = new JRadioButton("Regualar");
         final JRadioButton doubleMoveButton = new JRadioButton("Double Move");
         final JRadioButton kungFuButton = new JRadioButton("Kung Fu");
@@ -225,6 +220,25 @@ class GameSetup extends JDialog {
         kingPromotionButton.addActionListener(moveListener);
         tripleCheckButton.addActionListener(moveListener);
 
+        final JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
+        optionsPanel.setBorder(BorderFactory.createTitledBorder("Optional Rules"));
+
+        // Checkboxes for additional options
+        final JCheckBox atomic = new JCheckBox("Atomic");
+        final JCheckBox doubleArmy = new JCheckBox("Double Army");
+        final JCheckBox cheshireCat = new JCheckBox("Cheshire Cat");
+        final JCheckBox lookingGlass = new JCheckBox("Looking Glass");
+
+        // Add checkboxes to the options panel
+        optionsPanel.add(atomic);
+        optionsPanel.add(doubleArmy);
+        optionsPanel.add(cheshireCat);
+        optionsPanel.add(lookingGlass);
+
+        // Add Options Panel to Main Panel
+        gbc.gridy = 1; // Place below the moveTypePanel
+        mainPanel.add(optionsPanel, gbc);
+
         // Buttons Panel
         final JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         final JButton cancelButton = new JButton("Cancel");
@@ -242,6 +256,10 @@ class GameSetup extends JDialog {
             } else {
                 playerCount = PlayerCount.FourOpponents;
             }
+            isAtomic = atomic.isSelected();
+            isDoubleArmy = doubleArmy.isSelected();
+            isChesireCat = cheshireCat.isSelected();
+            isLookingGlass = lookingGlass.isSelected();
             setVisible(false);
             Table.get().reset();
         });
@@ -250,6 +268,13 @@ class GameSetup extends JDialog {
 
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(okButton);
+        // Search Depth Spinner
+        final JPanel searchPanel = new JPanel();
+        searchPanel.add(new JLabel("Search Depth"));
+        this.searchDepthSpinner = addLabeledSpinner(searchPanel, "Depth", new SpinnerNumberModel(3, 0, Integer.MAX_VALUE, 1));
+
+        gbc.gridy = 3;
+        mainPanel.add(searchPanel, gbc);
 
         gbc.gridy = 4;
         gbc.gridx = 1;
