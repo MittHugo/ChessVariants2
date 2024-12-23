@@ -117,16 +117,8 @@ public class WolfChess extends Board{
 		@Override
 		public Collection<Move> calculateLegalMoves(Board board) {
 			List<Move> legalMoves = new ArrayList<>();
-			Nightrider nightrider = new Nightrider(this.pieceAlliance, this.piecePosition, isFirstMove);
-			for(Move move: nightrider.calculateLegalMoves(board)) {
-				if(move.isAttack()) {
-					legalMoves.add(new AttackMove(board, this, move.getDestinationCoordinate(), move.getAttackedPiece()));
-				}else {
-					legalMoves.add(new MajorMove(board, this, move.getDestinationCoordinate()));
-				}
-			}
-			legalMoves.addAll(PieceUtils.calculateDiagonalMoves(board, this));
-			legalMoves.addAll(PieceUtils.calculateOrthogonalMoves(board, this));
+			legalMoves.addAll(PieceUtils.compulatePieceMoves(this, board, PieceUtils.pieceFromPiece(this, Nightrider.class), 
+				PieceUtils.pieceFromPiece(this, Queen.class)));
 			return legalMoves;
 		}
 		

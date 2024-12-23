@@ -68,9 +68,8 @@ public class MaharajahSepoys extends Board{
 		@Override
 		public Collection<Move> calculateLegalMoves(Board board) {
 			List<Move> moves = new ArrayList<Move>();
-			moves.addAll(PieceUtils.calculate2To1PatternLeaper(board, this));
-			moves.addAll(PieceUtils.calculateDiagonalMoves(board, this));
-			moves.addAll(PieceUtils.calculateOrthogonalMoves(board, this));
+			moves.addAll(PieceUtils.compulatePieceMoves(this, board, PieceUtils.pieceFromPiece(this, Bishop.class),
+				 PieceUtils.pieceFromPiece(this, Rook.class), PieceUtils.pieceFromPiece(this, Knight.class)));
 			return moves;
 		}
 		

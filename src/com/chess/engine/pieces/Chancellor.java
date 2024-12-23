@@ -23,8 +23,9 @@ public class Chancellor extends Piece {
 	@Override
 	public Collection<Move> calculateLegalMoves(Board board) {
 		List<Move> legalMoves = new ArrayList<Move>();
-	    legalMoves.addAll(PieceUtils.calculateOrthogonalMoves(board, this));
-	    legalMoves.addAll(PieceUtils.calculate2To1PatternLeaper(board, this));
+	    // legalMoves.addAll(PieceUtils.calculateOrthogonalMoves(board, this));
+	    // legalMoves.addAll(PieceUtils.calculate2To1PatternLeaper(board, this));
+		legalMoves.addAll(PieceUtils.compulatePieceMoves(this, board, PieceUtils.pieceFromPiece(this, Rook.class), PieceUtils.pieceFromPiece(this, Knight.class)));
 		return Collections.unmodifiableCollection(legalMoves);
 	}
 	

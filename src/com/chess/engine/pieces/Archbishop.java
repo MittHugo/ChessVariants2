@@ -23,8 +23,8 @@ public class Archbishop extends Piece {
 	@Override
 	public Collection<Move> calculateLegalMoves(Board board) {
 		List<Move> legalMoves = new ArrayList<Move>();
-		legalMoves.addAll(PieceUtils.calculate2To1PatternLeaper(board, this));
-		legalMoves.addAll(PieceUtils.calculateDiagonalMoves(board, this));
+		legalMoves.addAll(PieceUtils.compulatePieceMoves(this, board, new Bishop(this.pieceAlliance, this.piecePosition, this.isFirstMove), 
+			new Knight(this.pieceAlliance, this.piecePosition, this.isFirstMove)));
 		return Collections.unmodifiableCollection(legalMoves);
 	}
 	@Override 

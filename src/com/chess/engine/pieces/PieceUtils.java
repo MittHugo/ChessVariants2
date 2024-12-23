@@ -568,4 +568,49 @@ public class PieceUtils {
 		}
 
 	}
+	// public static Collection<Move> compulatePieceMoves(Piece thisPiece, Board board, Piece... pieces) {
+	//     List<Move> combinedMoves = new ArrayList<>();
+	//     for (Piece piece : pieces) {
+	//         for(Move move: piece.calculateLegalMoves(board)) {
+	// 			combinedMoves.add(instantiateMove(board, thisPiece, move));
+	// 		}
+	//     }
+	//     return combinedMoves;
+	// }
+	public static Collection<Move> compulatePieceMoves(Piece thisPiece, Board board, Piece... pieces) {
+		List<Move> combinedMoves = new ArrayList<>();
+		for (Piece piece : pieces) {
+			// Ensure this is correctly calling calculateLegalMoves on an instance
+			Collection<Move> legalMoves = piece.calculateLegalMoves(board);
+			for (Move move : legalMoves) {
+				combinedMoves.add(PieceUtils.instantiateMove(board, thisPiece, move));
+			}
+		}
+		return combinedMoves;
+	}
+	
+
+	public static <T extends Move> Move instantiateMove(final Board board, final Piece piece, final Move move) {
+		try {
+			return move.getClass().getDeclaredConstructor(Board.class, Piece.class, int.class)
+				.newInstance(board, piece, move.getDestinationCoordinate());
+		} catch (Exception e) {
+			try {
+				return move.getClass().getDeclaredConstructor(Board.class, Piece.class, int.class, Piece.class)
+					.newInstance(board, piece, move.getDestinationCoordinate(), move.getAttackedPiece());
+			} catch (Exception ex) {
+				throw new RuntimeException("Failed to create builder instance", e);
+			}
+		}
+	}
+	
+	public static <T extends Piece> Piece pieceFromPiece(Piece piece, Class<T> newClass) {
+		try {
+			return newClass.getDeclaredConstructor(Alliance.class, int.class, boolean.class)
+				.newInstance(piece.getAlliance(), piece.getPiecePosition(), piece.isFirstMove());
+		} catch (Exception e) {
+
+			throw new RuntimeException("Failed to create builder instance", e);
+		}
+	}
 }
