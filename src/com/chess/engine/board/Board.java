@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.chess.engine.Alliance;
+import com.chess.engine.board.Tile.DisappearedTile;
+import com.chess.engine.board.Tile.EmptyTile;
 import com.chess.engine.board.Tile.NullTile;
 import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
@@ -166,6 +168,7 @@ public class Board {
 //		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
 //		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 		setupPlayers();
+		// System.out.println("The size is " + whiteStandardLegalMoves.size());
 		updatePieceValues();
 		this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer,this.redPlayer, this.bluePlayer);
 	}
@@ -403,6 +406,9 @@ public class Board {
 	    return combinedMoves;
 	}
 
+	public Map<Integer, Boolean> getDisappearedConfig() {
+		return this.builder.disapereadConfig;
+	}
 	
 	
 	public void addWhiteMoves(Collection<Move> moves) {
@@ -605,17 +611,36 @@ public class Board {
 					if(board.isNullArea()[i]) {
 						tiles.add(new NullTile(i));
 					} else {
-						tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+						if(builder.disapereadConfig.get(i) != null) {
+							// tiles.add(Tile.DISAPPEARED_TILES.get(i));
+							tiles.add(new NullTile(i));
+						} else {
+							tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+						}
 					}
 				}
 			} else {
 				for(int i = 0; i <board.NUM_TILES; i++) {
-					tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+					// System.out.println(builder.disapereadConfig.get(i) + " " + i);
+					if(builder.disapereadConfig.get(i) != null) {
+						// tiles.add(new DisappearedTile(i));
+						// System.out.println("here");
+						tiles.add(new DisappearedTile(i));
+						// System.out.println(new DisappearedTile(i).toString());
+						// tiles.add(new DisappearedTile(i));
+					} else {
+						tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+					}
 				}
 			}
 		} else {
 			for(int i = 0; i <board.NUM_TILES; i++) {
-				tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+				if(builder.disapereadConfig.get(i) != null) {
+					// tiles.add(Tile.DISAPPEARED_TILES.get(i));
+					tiles.add(new NullTile(i));
+				} else {
+					tiles.add(Tile.createTile(i, builder.boardConfig.get(i)));
+				}
 			}
 		}
 		return Collections.unmodifiableList(tiles);
@@ -708,6 +733,7 @@ public class Board {
 	
 	public static class Builder{
 		Map<Integer, Piece> boardConfig;
+		Map<Integer, Boolean> disapereadConfig;
 		public Alliance nextMoveMaker;
 		public Pawn enPassantPawn;
 		public Piece lastPieceMoved;
@@ -715,6 +741,7 @@ public class Board {
 
 		public Builder() {
 			this.boardConfig = new HashMap<>();
+			this.disapereadConfig = new HashMap<>();
 			if(lastPieceMoved == null) {
 				lastPieceMoved = new NullPiece(Alliance.WHITE,1, true);
 			}
@@ -724,7 +751,21 @@ public class Board {
 			this.boardConfig.put(piece.getPiecePosition(), piece);
 			return this;
 		}
+
+		public Builder placeOldDisappeared(final Board board) {
+			for(int i = 0; i < board.getNumberTiles(); i++) {
+				if(board.getDisappearedConfig().get(i) != null) {
+					this.disapereadConfig.put(i, true);
+				}
+			}
+			return this;
+		}
 		
+		public Builder setDisapeared(final int tileId) {
+			this.disapereadConfig.put(tileId, true);
+			return this;
+		}
+
 		public Builder setMoveMaker(final Alliance nextMoveMaker) {
 			this.nextMoveMaker = nextMoveMaker;
 			return this;
@@ -774,5 +815,4 @@ public class Board {
 	public Collection<Piece> getBluePieces() {
 		return this.bluePieces;
 	}
-	
 }

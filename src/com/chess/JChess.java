@@ -9,6 +9,8 @@ public class JChess {
 		// Muscateer Chess - Pre-Chess - Polgar reform chess - Transcendental Chess (fix transpose) - Way of Knight
 		//TODO fix first jump pattern knight for Flacon-HunterChess
 		// 2000 AD
+
+		// Need Atomic addition: TorpedoChess FaclconHunter WolfChess SuperX
 		Table.get();
 	}
 }

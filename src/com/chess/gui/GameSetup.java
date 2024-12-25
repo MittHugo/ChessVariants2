@@ -41,7 +41,7 @@ class GameSetup extends JDialog {
     GameSetup(final JFrame frame, final boolean modal) {
         super(frame, modal);
         setTitle("Game Setup");
-        setPreferredSize(new Dimension(500, 800));
+        setPreferredSize(new Dimension(800, 800));
         setLayout(new BorderLayout());
 
         // Main Panel with GridBagLayout

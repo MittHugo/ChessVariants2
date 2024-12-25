@@ -8,7 +8,9 @@ import java.util.List;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.Move;
+import com.chess.engine.pieces.Vectors.AttackType;
 import com.chess.engine.pieces.Vectors.MotionType;
+import com.chess.gui.Table;
 
 public class King extends Piece {
 	
@@ -29,6 +31,21 @@ public class King extends Piece {
 			new Vectors(board.getNumberColumns()+1, MotionType.Jump),};
 		final List<Move> legalMoves= new ArrayList<>();
 		legalMoves.addAll(PieceUtils.moveMaker(CANIDATE_MOVE_COORDINATE, board, this));
+		Vectors[] CheshireVecotrs = {
+			new Vectors(-(board.getNumberColumns()+1),MotionType.Itterative,AttackType.Both, true),
+			new Vectors(-(board.getNumberColumns()-1),MotionType.Itterative,AttackType.Both, true), 
+			new Vectors(board.getNumberColumns()-1,MotionType.Itterative,AttackType.Both, true),
+			new Vectors(board.getNumberColumns()+1, MotionType.Itterative,AttackType.Both, true),
+			new Vectors(-board.getNumberColumns(), MotionType.Itterative,AttackType.Both, true),
+			new Vectors(-1, MotionType.Itterative),
+			new Vectors(1, MotionType.Itterative),
+			new Vectors(board.getNumberColumns(), MotionType.Itterative)};
+		if(Table.get() != null) {
+			if(Table.get().isChesireCat() && this.isFirstMove) {
+				legalMoves.addAll(PieceUtils.moveMaker(CheshireVecotrs, board, this));
+			}
+		}
+
 		
 		return Collections.unmodifiableList(legalMoves);
 	}

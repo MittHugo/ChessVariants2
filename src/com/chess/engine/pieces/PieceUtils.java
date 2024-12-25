@@ -260,6 +260,12 @@ public class PieceUtils {
 				break;
 			}
 			canidateDestinationCoordinate += vector.vector;
+			if (!board.isValidTileCoordinate(canidateDestinationCoordinate)) {
+				break;
+			}
+			if(board.getTile(canidateDestinationCoordinate).isDisappeared()) {
+				continue;
+			}
 			if (board.isValidTileCoordinate(canidateDestinationCoordinate)) {
 				final Tile canidateDestinationTile = board.getTile(canidateDestinationCoordinate);
 
@@ -294,7 +300,9 @@ public class PieceUtils {
 			if (PieceUtils.isException(board, vector.vector, piece.piecePosition)) {
 				return new ArrayList<>();
 			}
-
+			if(board.getTile(canidateDestinationCoordinate).isDisappeared()) {
+				return new ArrayList<>();
+			}
 			final Tile canidateDestinationTile = board.getTile(canidateDestinationCoordinate);
 
 			if (!canidateDestinationTile.isTileOccupied()
@@ -330,6 +338,9 @@ public class PieceUtils {
 			if (PieceUtils.isException(board, vector.vector, piece.piecePosition)) {
 				return new ArrayList<>();
 			}
+			if(board.getTile(canidateDestinationCoordinate).isDisappeared()) {
+				return new ArrayList<>();
+			}
 			
 			final Tile canidateDestinationTile = board.getTile(canidateDestinationCoordinate);
 			if (!isBehindVectorsOccupied) {
@@ -362,10 +373,13 @@ public class PieceUtils {
 		while (board.isValidTileCoordinate(canidateDestinationCoordinate + vector.vector)
 				&& board.isValidTileCoordinate(canidateDestinationCoordinate + 2 * vector.vector)
 				&& numPreTravel < vector.preTravel) {
-			if (PieceUtils.isException(board, vector.vector, canidateDestinationCoordinate) || PieceUtils
-					.isException(board, vector.vector, canidateDestinationCoordinate + vector.vector)) {
+			if (PieceUtils.isException(board, vector.vector, canidateDestinationCoordinate) ||
+				 PieceUtils.isException(board, vector.vector, canidateDestinationCoordinate + vector.vector)) {
 				break;
 			}
+			if(board.getTile(canidateDestinationCoordinate).isDisappeared()) {
+				break;
+			 }
 			numPreTravel++;
 			canidateDestinationCoordinate += vector.vector;
 			if (board.getTile(canidateDestinationCoordinate).isTileOccupied()) {
@@ -439,6 +453,9 @@ public class PieceUtils {
 			if (PieceUtils.isException(board, vector.vector, piece.piecePosition)) {
 				return new ArrayList<>();
 			}
+			if(board.getTile(jumpCoordinate).isDisappeared()) {
+				return new ArrayList<>();
+			}
 			final Tile canidateDestinationTile = board.getTile(jumpCoordinate);
 
 			if (!canidateDestinationTile.isTileOccupied() && !(vector.attackType == AttackType.AttackOnly)) {
@@ -464,6 +481,12 @@ public class PieceUtils {
 							break;
 						}
 						canidateDestinationCoordinate += expansionVector;
+							if (!board.isValidTileCoordinate(canidateDestinationCoordinate)) {
+								break;
+							}
+							if(board.getTile(canidateDestinationCoordinate).isDisappeared()) {
+								continue;
+							}
 						if (board.isValidTileCoordinate(canidateDestinationCoordinate)) {
 							final Tile canidateDestinationTileExpanded = board
 									.getTile(canidateDestinationCoordinate);

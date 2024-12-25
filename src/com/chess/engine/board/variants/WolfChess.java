@@ -8,7 +8,6 @@ import java.util.List;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.Move;
-import com.chess.engine.board.Move.AttackMove;
 import com.chess.engine.board.Move.MajorMove;
 import com.chess.engine.board.Move.PawnJump;
 import com.chess.engine.board.Move.PawnMove;

@@ -470,7 +470,7 @@ public class Table extends Observable {
 		}
 
 		private void assignTileColor(Board board) {
-			if (!board.getTile(tileId).isNullTile()) {
+			if (!(board.getTile(tileId).isNullTile()||board.getTile(tileId).isDisappeared())) {
 				int rows = chessBoard.getNumberRows(); // Get the total number of rows
 				int columns = chessBoard.getNumberColumns(); // Get the total number of columns
 

@@ -3,6 +3,7 @@ package com.chess.engine.board;
 import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Piece.PieceType;
+import com.chess.gui.Table;
 import com.chess.engine.pieces.Rook;
 
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public abstract class Move {
 				Jester jester = (Jester) this.movedPiece;
 				builder.lastPieceMoved(jester.replicatedMovedPiece());
 				builder.setIsLastMoveAttack(builder.isLastMoveAttack);
+			}
+			if(Table.get().isChesireCat()) {
+				builder.setDisapeared(this.movedPiece.getPiecePosition());
+				builder.placeOldDisappeared(this.board);
 			}
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
 			return builder.build();
@@ -149,6 +154,10 @@ public abstract class Move {
 				builder.lastPieceMoved(jester.replicatedMovedPiece());
 				builder.setIsLastMoveAttack(builder.isLastMoveAttack);
 			}
+			if(Table.get().isChesireCat()) {
+				builder.setDisapeared(this.movedPiece.getPiecePosition());
+				builder.placeOldDisappeared(this.board);
+			}
 			builder.setMoveMaker(board.currentPlayer().getAlliance());
 			return builder.build();
 		}
@@ -172,6 +181,10 @@ public abstract class Move {
 			final Pawn movedPawn = (Pawn) this.movedPiece.movePiece(this);
 			builder.setPiece(movedPawn);
 			builder.setEnPassantPawn(movedPawn);
+			if(Table.get().isChesireCat()) {
+				builder.setDisapeared(this.movedPiece.getPiecePosition());
+				builder.placeOldDisappeared(this.board);
+			}
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
 			if (this.movedPiece.getPieceType() != PieceType.JESTER) {
 				builder.lastPieceMoved(this.movedPiece.movePiece(this));
@@ -226,6 +239,10 @@ public abstract class Move {
 				builder.setIsLastMoveAttack(builder.isLastMoveAttack);
 			}
 			builder.setPiece(new Rook(this.castleRook.getAlliance(), this.castleRookDestination, false));
+			if(Table.get().isChesireCat()) {
+				builder.setDisapeared(this.movedPiece.getPiecePosition());
+				builder.placeOldDisappeared(this.board);
+			}
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
 			return builder.build();
 		}
@@ -293,6 +310,10 @@ public abstract class Move {
 			Jester jester = (Jester) this.movedPiece;
 			builder.lastPieceMoved(jester.replicatedMovedPiece());
 			builder.setIsLastMoveAttack(builder.isLastMoveAttack);
+		}
+		if(Table.get().isChesireCat()) {
+			builder.placeOldDisappeared(this.board);
+			builder.setDisapeared(this.movedPiece.getPiecePosition());
 		}
 		builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
 		return builder.build();
@@ -369,6 +390,10 @@ public abstract class Move {
     				builder.setPiece(piece);
     			}
     		}
+			if(Table.get().isChesireCat()) {
+				builder.setDisapeared(this.movedPiece.getPiecePosition());
+				builder.placeOldDisappeared(this.board);
+			}
     		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
     		return builder.build();
     	}

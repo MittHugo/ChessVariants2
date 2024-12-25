@@ -4,7 +4,6 @@ import java.util.Collections;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.chess.engine.pieces.Piece;
 
 
@@ -13,6 +12,7 @@ public abstract class Tile {
 	protected final int tileCoordinate; 
 	
 	private static final Map<Integer, EmptyTile> EMPTY_TILES = createALLPossibleEmptyTiles();
+	public static final Map<Integer, DisappearedTile> DISAPPEARED_TILES = createAllDisappearedTiles();
 
 	private Tile(final int tileCoordinate) {
 		this.tileCoordinate = tileCoordinate;
@@ -32,12 +32,21 @@ public abstract class Tile {
 		return Collections.unmodifiableMap(emptyTileMap);
 	}
 
+	private static Map<Integer, DisappearedTile> createAllDisappearedTiles() {
+    	final Map<Integer, DisappearedTile> disappearedTileMap = new HashMap<>();
+    	for (int i = 0; i < 1000; i++) {
+        	disappearedTileMap.put(i, new DisappearedTile(i));
+		}
+    	return Collections.unmodifiableMap(disappearedTileMap);
+	}
+
+
 	public abstract boolean isTileOccupied();
 	
 	public abstract Piece getPiece();
 	
 	public static final class EmptyTile extends Tile {
-		private EmptyTile(final int coordinate) {
+		EmptyTile(final int coordinate) {
 			super(coordinate);
 		}
 		@Override 
@@ -55,6 +64,10 @@ public abstract class Tile {
 		}
 		@Override
 		public boolean isNullTile() {
+			return false;
+		}
+		@Override
+		public boolean isDisappeared() {
 			return false;
 		}
 	}
@@ -89,6 +102,10 @@ public abstract class Tile {
 		public boolean isNullTile() {
 			return false;
 		}
+		@Override
+		public boolean isDisappeared() {
+			return false;
+		}
 	}
 	public static final class NullTile extends Tile {
 		
@@ -110,8 +127,39 @@ public abstract class Tile {
 		public boolean isNullTile() {
 			return true;
 		}
+		@Override
+		public boolean isDisappeared() {
+			return false;
+		}		
+	}
+
+	public static final class DisappearedTile extends Tile {
+		
+		DisappearedTile(int tileCoordinate) {
+			super(tileCoordinate);
+		}
+
+		@Override
+		public boolean isTileOccupied() {
+			return false;
+		}
+
+		@Override
+		public Piece getPiece() {
+			return null;
+		}
+
+		@Override
+		public boolean isNullTile() {
+			return false;
+		}
+		@Override
+		public boolean isDisappeared() {
+			return true;
+		}
 	}
 
 	public abstract boolean isNullTile();
+	public abstract boolean isDisappeared();
 	
 }
