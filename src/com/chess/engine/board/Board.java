@@ -128,9 +128,15 @@ public class Board {
 					this.NUM_TILES_PER_ROW = NUM_TILES_PER_ROW;
 				}
 			} else {
-				this.NUM_TILES = (int)Math.pow(((numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN),2);
-				this.NUM_TILES_PER_COLUMN = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
-				this.NUM_TILES_PER_ROW = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
+				if(Table.get().isDoubleChess()) {
+					this.NUM_TILES_PER_COLUMN = (numberOfRowsUsed+1)*2+2*NUM_TILES_PER_COLUMN;
+					this.NUM_TILES_PER_ROW = (numberOfRowsUsed+1)*2+2*NUM_TILES_PER_COLUMN;
+					this.NUM_TILES = this.NUM_TILES_PER_COLUMN * this.NUM_TILES_PER_ROW;
+				} else {
+					this.NUM_TILES = (int)Math.pow(((numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN),2);
+					this.NUM_TILES_PER_COLUMN = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
+					this.NUM_TILES_PER_ROW = (numberOfRowsUsed+1)*2+NUM_TILES_PER_COLUMN;
+				}
 			}
 		} else {
 			this.NUM_TILES = NUM_TILES_PER_COLUMN * NUM_TILES_PER_ROW;

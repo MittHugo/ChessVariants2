@@ -161,39 +161,68 @@ public class BoardUtils {
 			int numberOfLines) {
 		if(Table.get() != null) {
 			if(Table.get().getPlayerCount() != PlayerCount.Regular) {
-				BoardUtils.buildBoard(classes, builder, 
-						BoardUtils.getDimensionFor4Player(numTilesPerColumn, numberOfLines), 
-						BoardUtils.getDimensionFor4Player(numTilesPerColumn, numberOfLines), blackPawnLine, Pawn.class, numberOfLines);
+				BoardUtils.buildBoard(BoardUtils.convertClassToDouble(classes, numTilesPerColumn), builder, 
+						BoardUtils.getDimensionFor4Player(BoardUtils.convertWidthToDouble(numTilesPerColumn), numberOfLines), 
+						BoardUtils.getDimensionFor4Player(BoardUtils.convertWidthToDouble(numTilesPerColumn), numberOfLines),
+						blackPawnLine, Pawn.class, numberOfLines);
 			}else {
-				if(Table.get().isDoubleChess()) {
-					BoardUtils.buildDoubleBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
-				} else {
-					BoardUtils.buildBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
-				}
+				BoardUtils.buildBoard(BoardUtils.convertClassToDouble(classes, numTilesPerColumn), builder,
+					BoardUtils.convertWidthToDouble(numTilesPerColumn), numTilesPerRow, blackPawnLine, Pawn.class);
 			}
 		} else {
 			BoardUtils.buildBoard(classes, builder, numTilesPerColumn, numTilesPerRow, blackPawnLine, Pawn.class);
 		}
 	}
-
-	private static void buildDoubleBoard(Class<? extends Piece>[] classes, Builder builder,
-			int numTilesPerColumn, int numTilesPerRow, int blackPawnLine, Class<? extends Piece> pawnClass) {
-				Class<? extends Piece>[] doubleClasses = new Class[1000];
-				for (int i = 0; i < classes.length; i++) {
-					if (i < numTilesPerColumn) {
-						// First set of rows
-						doubleClasses[i] = classes[i];
-						doubleClasses[numTilesPerColumn + i] = classes[i];
-					} else {
-						// Rows beyond the first set
-						int desiredRow = i / numTilesPerColumn;
-						int adjustedIndex = i % numTilesPerColumn + (desiredRow * numTilesPerColumn * 2);
-						doubleClasses[adjustedIndex] = classes[i];
-						doubleClasses[adjustedIndex+numTilesPerColumn] = classes[i];
-					}
-				}
-				BoardUtils.buildBoard(doubleClasses, builder, numTilesPerColumn*2, numTilesPerRow, blackPawnLine, Pawn.class);
+	public static Class<? extends Piece>[] convertClassToDouble(Class<? extends Piece>[] classes, int numTilesPerColumn) {
+		Class<? extends Piece>[] doubleClasses = new Class[classes.length*2];
+		for (int i = 0; i < classes.length; i++) {
+			if (i < numTilesPerColumn) {
+				// First set of rows
+				doubleClasses[i] = classes[i];
+				doubleClasses[numTilesPerColumn + i] = classes[i];
+			} else {
+				// Rows beyond the first set
+				int desiredRow = i / numTilesPerColumn;
+				int adjustedIndex = i % numTilesPerColumn + (desiredRow * numTilesPerColumn * 2);
+				doubleClasses[adjustedIndex] = classes[i];
+				doubleClasses[adjustedIndex+numTilesPerColumn] = classes[i];
+			}
+		}
+		if(Table.get() != null) {
+			if(Table.get().isDoubleChess()){
+				return doubleClasses;
+			}
+		}
+		return classes;
 	}
+
+	public static int convertWidthToDouble(int numTilesPerColumn) {
+		if(Table.get() != null) {
+			if(Table.get().isDoubleChess()){
+				return numTilesPerColumn*2;
+			}
+		}
+		return numTilesPerColumn;
+	}
+
+	// private static void buildDoubleBoard(Class<? extends Piece>[] classes, Builder builder,
+	// 		int numTilesPerColumn, int numTilesPerRow, int blackPawnLine, Class<? extends Piece> pawnClass) {
+	// 			Class<? extends Piece>[] doubleClasses = new Class[1000];
+	// 			for (int i = 0; i < classes.length; i++) {
+	// 				if (i < numTilesPerColumn) {
+	// 					// First set of rows
+	// 					doubleClasses[i] = classes[i];
+	// 					doubleClasses[numTilesPerColumn + i] = classes[i];
+	// 				} else {
+	// 					// Rows beyond the first set
+	// 					int desiredRow = i / numTilesPerColumn;
+	// 					int adjustedIndex = i % numTilesPerColumn + (desiredRow * numTilesPerColumn * 2);
+	// 					doubleClasses[adjustedIndex] = classes[i];
+	// 					doubleClasses[adjustedIndex+numTilesPerColumn] = classes[i];
+	// 				}
+	// 			}
+	// 			BoardUtils.buildBoard(doubleClasses, builder, numTilesPerColumn*2, numTilesPerRow, blackPawnLine, Pawn.class);
+	// }
 	private static <T extends Piece> void buildPiece(Class<T> pieceClass, Builder builder, Alliance alliance,
 			int position) {
 		try {
