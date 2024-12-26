@@ -38,7 +38,7 @@ public class MaharajahSepoys extends Board{
 		builder.setPiece(new Maharajah(Alliance.WHITE, 60, true));
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

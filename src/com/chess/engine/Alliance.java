@@ -275,10 +275,6 @@ public enum Alliance {
 		public boolean isBlue() {
 			return true;
 		}
-//		@Override
-//		public Alliance getOppositeAlliance() {
-//			return Alliance.WHITE;
-//		}
 	};
 	public abstract int getDirection();
 	public abstract boolean isBlack();

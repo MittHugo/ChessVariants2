@@ -34,7 +34,7 @@ public class GrasshoperChess extends Board {
 		BoardUtils.buildBoard(backRankClasses, builder, 8, 8, 3, Pawn.class); // Add pawns at rows 3 (Black) and 6 (White)
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

@@ -40,7 +40,7 @@ public class Berolina extends Board{
 		BoardUtils.buildBoard(classes, builder, 8,8,2,(Class<? extends Piece>)pawnClass);
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

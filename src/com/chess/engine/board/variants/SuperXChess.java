@@ -60,7 +60,7 @@ public class SuperXChess extends Board {
 		builder.setPiece(new SuperXRook(Alliance.WHITE, 63, true));
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}
@@ -320,7 +320,7 @@ public class SuperXChess extends Board {
 			}
 
 			builder.setPiece(getCombinedPiece(thisPiece, combinedPiece.getPieceType(), thisDestinationCoordinate));
-			builder.setMoveMaker(thisBoard.currentPlayer().getOpponent().getAlliance());
+			builder.setFirstMoveMaker(thisBoard.currentPlayer().getOpponent().getAlliance());
 			return builder.build();
 		}
 

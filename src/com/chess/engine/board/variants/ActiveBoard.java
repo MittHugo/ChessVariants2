@@ -40,7 +40,7 @@ public class ActiveBoard extends Board {
 			BoardUtils.betterBuildBoard(classes, builder, 9,8,2, Pawn.class,2);
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

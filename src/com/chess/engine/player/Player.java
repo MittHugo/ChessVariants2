@@ -14,7 +14,6 @@ import com.chess.engine.pieces.Rook;
 import com.chess.gui.Table;
 import com.chess.gui.Table.ChessType;
 import com.chess.engine.board.Move;
-import com.chess.engine.board.Move.NullMove;
 
 public abstract class Player {
 	protected Board board;

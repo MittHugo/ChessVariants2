@@ -64,7 +64,7 @@ public class Metamachy extends Board {
 		builder.setPiece(new Elephant(Alliance.WHITE, 131, true));
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

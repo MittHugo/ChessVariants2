@@ -26,7 +26,7 @@ public class AlmostChess extends Board{
 		BoardUtils.buildBoard(classes, builder, 8,8,2, Pawn.class);
 //		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

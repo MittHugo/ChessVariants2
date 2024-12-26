@@ -20,7 +20,7 @@ public class StandardBoard extends Board {
 		BoardUtils.betterBuildBoard(classes, builder, boardDimension, boardDimension, 2, Pawn.class, numberOfRowsUsed);
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

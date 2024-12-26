@@ -30,7 +30,7 @@ public class PeasantRevolt extends Board{
 		builder.setPiece(new King(Alliance.WHITE, 60, true));
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

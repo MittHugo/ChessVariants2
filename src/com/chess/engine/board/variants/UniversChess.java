@@ -47,7 +47,7 @@ public class UniversChess extends Board {
         }
 
         // White to move
-        builder.setMoveMaker(Alliance.WHITE);
+        builder.setFirstMoveMaker(Alliance.WHITE);
 
         return builder.build();
     }

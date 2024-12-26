@@ -118,7 +118,7 @@ public class CapablancaRandomChess extends Board {
 		squares.remove(archbishopIndex);
 		
 		
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 		return builder.build();
 	}
 

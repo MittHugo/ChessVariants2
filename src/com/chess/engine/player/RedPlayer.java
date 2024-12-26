@@ -13,6 +13,7 @@ import com.chess.engine.board.Tile;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Rook;
 import com.chess.gui.Table;
+import com.chess.gui.Table.MoveType;
 import com.chess.gui.Table.PlayerCount;
 
 public class RedPlayer extends Player {
@@ -100,11 +101,24 @@ public class RedPlayer extends Player {
 	}
 	@Override
 	public Player getNextPlayer() {
+		if(Table.get().getMoveType() == MoveType.DoubleMove) {
+			if(this.board.getBuilder().countCurrentMoveMaker < 2) {
+				return this.board.redPlayer();
+			}
+		}
+		if(Table.get().getMoveType() == MoveType.Progressive) {
+			if(this.board.getBuilder().countCurrentMoveMaker < this.board.getBuilder().countPreviousMoveMaker+1) {
+				return this.board.redPlayer();
+			}
+		}
 		return this.board.blackPlayer();
 	}
 	
 	@Override
 	public Player getPreviousPlayer() {
+		if(this.board.getBuilder().countCurrentMoveMaker > 1) {
+			return this.board.redPlayer();
+		}
 		return this.board.getWhitePlayer();
 	}
 }

@@ -52,7 +52,7 @@ public class ModernChess extends Board{
 		builder.setPiece(new Rook(Alliance.WHITE, 80, true));
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

@@ -80,7 +80,7 @@ public class MotherOfAllBattles extends Board{
 		BoardUtils.buildBoard(classes, builder, 16,16,3, FalconHunterPawn.class);
 //		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

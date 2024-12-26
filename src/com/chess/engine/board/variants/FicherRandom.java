@@ -105,7 +105,7 @@ public class FicherRandom extends Board {
 		builder.setPiece(new Queen(Alliance.WHITE, squares.get(queenIndex)+56, true));
 		squares.remove(queenIndex);
 		
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 		return builder.build();
 	}
 

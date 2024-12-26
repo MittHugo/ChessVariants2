@@ -48,7 +48,7 @@ public class SortAlmostChess extends Board{
 		builder.setPiece(new Rook(Alliance.WHITE, 63, true));
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

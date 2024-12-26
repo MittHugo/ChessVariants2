@@ -38,7 +38,7 @@ public class JesterChess extends Board {
 
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

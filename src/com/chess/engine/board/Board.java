@@ -744,10 +744,14 @@ public class Board {
 		public Pawn enPassantPawn;
 		public Piece lastPieceMoved;
 		public boolean isLastMoveAttack;
+		public int countCurrentMoveMaker;
+		public int countPreviousMoveMaker;
 
 		public Builder() {
 			this.boardConfig = new HashMap<>();
 			this.disapereadConfig = new HashMap<>();
+			countCurrentMoveMaker =1;
+			countPreviousMoveMaker =0;
 			if(lastPieceMoved == null) {
 				lastPieceMoved = new NullPiece(Alliance.WHITE,1, true);
 			}
@@ -766,13 +770,29 @@ public class Board {
 			}
 			return this;
 		}
+		public Builder forwardPropagateData(final Board board) {
+			placeOldDisappeared(board);
+			countCurrentMoveMaker = board.builder.countCurrentMoveMaker;
+			countPreviousMoveMaker = board.builder.countPreviousMoveMaker;
+			return this;
+		}
 		
 		public Builder setDisapeared(final int tileId) {
 			this.disapereadConfig.put(tileId, true);
 			return this;
 		}
 
-		public Builder setMoveMaker(final Alliance nextMoveMaker) {
+		public Builder setMoveMaker(final Alliance nextMoveMaker, Board board) {
+			if(board.builder.nextMoveMaker == nextMoveMaker) {
+				countCurrentMoveMaker ++;
+			} else {
+				countPreviousMoveMaker = countCurrentMoveMaker;
+				countCurrentMoveMaker = 1;
+			}
+			this.nextMoveMaker = nextMoveMaker;
+			return this;
+		}
+		public Builder setFirstMoveMaker(final Alliance nextMoveMaker) {
 			this.nextMoveMaker = nextMoveMaker;
 			return this;
 		}

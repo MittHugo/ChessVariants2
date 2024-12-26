@@ -30,7 +30,7 @@ public class GrantAcedrex extends Board{
 			BoardUtils.buildBoard(classes, builder, 12, 12, 3, Pawn.class);
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

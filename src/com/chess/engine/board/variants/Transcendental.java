@@ -125,7 +125,7 @@ public class Transcendental extends Board {
 		builder.setPiece(new Queen(Alliance.WHITE, squares.get(queenIndex), true));
 		squares.remove(queenIndex);
 		
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 		return builder.build();
 	}
 
@@ -183,7 +183,7 @@ public class Transcendental extends Board {
 			
 			builder.setPiece(this.movedPiece.movePiece(this));
 			builder.setPiece(this.transposedPiece.movePiece(new MajorMove(board, transposedPiece, movedPiece.getPiecePosition())));
-			builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+			builder.setFirstMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
 			return builder.build();
 		}
 	}

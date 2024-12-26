@@ -70,7 +70,7 @@ public class WolfChess extends Board{
 		builder.setPiece(new Queen(Alliance.WHITE, 79, true));
 //		builder.setPiece(new MissilePiece(Alliance.WHITE, 89, true));
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

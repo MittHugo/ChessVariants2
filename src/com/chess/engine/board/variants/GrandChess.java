@@ -38,7 +38,7 @@ public class GrandChess extends Board {
 
 //		BoardUtils.buildBoard(classes, builder, 10, 10, 3, Pawn.class);
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

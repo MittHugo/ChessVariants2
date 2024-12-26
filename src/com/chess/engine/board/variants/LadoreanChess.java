@@ -32,7 +32,7 @@ public class LadoreanChess extends Board{
 		BoardUtils.buildBoard(blackLayout, builder, 10, 8, 2, Pawn.class);
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

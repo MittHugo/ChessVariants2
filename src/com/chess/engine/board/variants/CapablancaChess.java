@@ -38,7 +38,7 @@ public class CapablancaChess extends Board{
 		BoardUtils.buildBoard(classes, builder, 10,8,2, Pawn.class);//,(Class<? extends Piece>)pawnClass
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

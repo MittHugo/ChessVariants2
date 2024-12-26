@@ -37,7 +37,7 @@ public class FalconHunterBoard extends Board {
 		BoardUtils.buildBoard(classes, builder, 10,10,2, pawnClass);//,(Class<? extends Piece>)pawnClass
 
 		// white to move
-		builder.setMoveMaker(Alliance.WHITE);
+		builder.setFirstMoveMaker(Alliance.WHITE);
 
 		return builder.build();
 	}

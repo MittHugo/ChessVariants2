@@ -214,11 +214,12 @@ class GameSetup extends JDialog {
             else if (meddleButton.isSelected()) moveType = MoveType.Meddle;
         };
 
-        regularChessButton.addActionListener(moveListener);
-        antiChessButton.addActionListener(moveListener);
-        conquerAllButton.addActionListener(moveListener);
-        kingPromotionButton.addActionListener(moveListener);
-        tripleCheckButton.addActionListener(moveListener);
+        regularMoveButton.addActionListener(moveListener);
+        doubleMoveButton.addActionListener(moveListener);
+        kungFuButton.addActionListener(moveListener);
+        progressiveButton.addActionListener(moveListener);
+        swarmButton.addActionListener(moveListener);
+        meddleButton.addActionListener(moveListener);
 
         final JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
         optionsPanel.setBorder(BorderFactory.createTitledBorder("Optional Rules"));

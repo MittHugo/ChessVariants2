@@ -13,6 +13,7 @@ import com.chess.engine.board.Tile;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Rook;
 import com.chess.gui.Table;
+import com.chess.gui.Table.MoveType;
 import com.chess.gui.Table.PlayerCount;
 
 public class WhitePlayer extends Player {
@@ -99,6 +100,17 @@ public class WhitePlayer extends Player {
 	}
 	@Override
 	public Player getNextPlayer() {
+		if(Table.get().getMoveType() == MoveType.DoubleMove) {
+			if(this.board.getBuilder().countCurrentMoveMaker < 2) {
+				System.out.println(this.board.getBuilder().countCurrentMoveMaker);
+				return this.board.whitePlayer();
+			}
+		}
+		if(Table.get().getMoveType() == MoveType.Progressive) {
+			if(this.board.getBuilder().countCurrentMoveMaker < this.board.getBuilder().countPreviousMoveMaker+1) {
+				return this.board.whitePlayer();
+			}
+		}
 		if(Table.get() != null) {
 			if(Table.get().getPlayerCount() != null) {
 				if(Table.get().getPlayerCount() != PlayerCount.Regular) {
@@ -110,6 +122,9 @@ public class WhitePlayer extends Player {
 	}
 	@Override
 	public Player getPreviousPlayer() {
+		if(this.board.getBuilder().countCurrentMoveMaker > 1) {
+			return this.board.whitePlayer();
+		}
 		if(Table.get() != null) {
 			if(Table.get().getPlayerCount() != null) {
 				if(Table.get().getPlayerCount() != PlayerCount.Regular) {

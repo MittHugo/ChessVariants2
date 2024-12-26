@@ -44,7 +44,7 @@ public class StratomicChess extends Board{
 		builder.setPiece(new Rook(Alliance.WHITE, 88, true));
 		builder.setPiece(new MissilePiece(Alliance.WHITE, 89, true));
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}

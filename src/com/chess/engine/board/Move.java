@@ -65,9 +65,9 @@ public abstract class Move {
 			}
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
-				builder.placeOldDisappeared(this.board);
 			}
-			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
+			builder.forwardPropagateData(board);
+			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			return builder.build();
 		}
 
@@ -156,9 +156,9 @@ public abstract class Move {
 			}
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
-				builder.placeOldDisappeared(this.board);
 			}
-			builder.setMoveMaker(board.currentPlayer().getAlliance());
+			builder.forwardPropagateData(board);
+			builder.setMoveMaker(board.currentPlayer().getAlliance(), board);
 			return builder.build();
 		}
 
@@ -183,9 +183,9 @@ public abstract class Move {
 			builder.setEnPassantPawn(movedPawn);
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
-				builder.placeOldDisappeared(this.board);
 			}
-			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
+			builder.forwardPropagateData(board);
+			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			if (this.movedPiece.getPieceType() != PieceType.JESTER) {
 				builder.lastPieceMoved(this.movedPiece.movePiece(this));
 				builder.setIsLastMoveAttack(false);
@@ -241,9 +241,9 @@ public abstract class Move {
 			builder.setPiece(new Rook(this.castleRook.getAlliance(), this.castleRookDestination, false));
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
-				builder.placeOldDisappeared(this.board);
 			}
-			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
+			builder.forwardPropagateData(board);
+			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			return builder.build();
 		}
 	}
@@ -312,10 +312,10 @@ public abstract class Move {
 			builder.setIsLastMoveAttack(builder.isLastMoveAttack);
 		}
 		if(Table.get().isChesireCat()) {
-			builder.placeOldDisappeared(this.board);
 			builder.setDisapeared(this.movedPiece.getPiecePosition());
 		}
-		builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance());
+		builder.forwardPropagateData(board);
+		builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 		return builder.build();
 	}
 
@@ -392,9 +392,9 @@ public abstract class Move {
     		}
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
-				builder.placeOldDisappeared(this.board);
 			}
-    		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+			builder.forwardPropagateData(board);
+    		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance(), board);
     		return builder.build();
     	}
     }

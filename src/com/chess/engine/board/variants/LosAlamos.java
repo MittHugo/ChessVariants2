@@ -29,7 +29,7 @@ public class LosAlamos extends Board {
 			BoardUtils.buildBoard(blackLayout, builder, 6, 6, 2, Pawn.class);
 		
 		// white to move
-		 builder.setMoveMaker(Alliance.WHITE);
+		 builder.setFirstMoveMaker(Alliance.WHITE);
 		 
 		 return builder.build();
 	}
