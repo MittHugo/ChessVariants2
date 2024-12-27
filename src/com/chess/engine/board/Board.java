@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Tile.DisappearedTile;
-import com.chess.engine.board.Tile.EmptyTile;
 import com.chess.engine.board.Tile.NullTile;
 import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;

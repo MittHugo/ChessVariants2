@@ -89,6 +89,18 @@ public abstract class Piece {
 			public boolean isRook() {
 				return false;
 			}
+		},	AUGMENTED_KNIGHT(350, "AugKnight") {
+			@Override
+			public void updatePieceValue() {}
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+
+			@Override
+			public boolean isRook() {
+				return false;
+			}
 		},
 		PRINCE(150, "PRINCE") {
 			@Override

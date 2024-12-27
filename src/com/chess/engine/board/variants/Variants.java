@@ -3,6 +3,8 @@ package com.chess.engine.board.variants;
 import com.chess.engine.board.*;
 import com.chess.engine.board.variants.ActiveBoard.ActiveBoardBuilder;
 import com.chess.engine.board.variants.AlmostChess.AlmostChessBuilder;
+import com.chess.engine.board.variants.AugmentedKnight.AugmentedKnight1;
+import com.chess.engine.board.variants.AugmentedKnight.AugmentedKnightBuilder;
 import com.chess.engine.board.variants.BearChess.BearBuilder;
 import com.chess.engine.board.variants.Berolina.BerolinaBuilder;
 import com.chess.engine.board.variants.CapablancaChess.CapablancaChessBuilder;
@@ -400,6 +402,86 @@ public enum Variants {
         @Override
         public BuildHandler getHandler() {
             return new BuildHandler<>(BearBuilder.class);
+        }
+
+		@Override
+		public VariantType varaintType() {
+			return VariantType.FAIRY_CHESS;
+		}
+    },AUGMENTED_KNIGHT1 {
+        @Override
+        public Board startBoard() {
+            return AugmentedKnight.createBoard1();
+        }
+
+        @Override
+        public String getName() {
+            return "Augmented Knight 1 Chess";
+        }
+
+        @Override
+        public BuildHandler getHandler() {
+            return new BuildHandler<>(AugmentedKnightBuilder.class);
+        }
+
+		@Override
+		public VariantType varaintType() {
+			return VariantType.FAIRY_CHESS;
+		}
+    },AUGMENTED_KNIGHT2 {
+        @Override
+        public Board startBoard() {
+            return AugmentedKnight.createBoard2();
+        }
+
+        @Override
+        public String getName() {
+            return "Augmented Knight 2 Chess";
+        }
+
+        @Override
+        public BuildHandler getHandler() {
+            return new BuildHandler<>(AugmentedKnightBuilder.class);
+        }
+
+		@Override
+		public VariantType varaintType() {
+			return VariantType.FAIRY_CHESS;
+		}
+    },AUGMENTED_KNIGHT3 {
+        @Override
+        public Board startBoard() {
+            return AugmentedKnight.createBoard3();
+        }
+
+        @Override
+        public String getName() {
+            return "Augmented Knight 3 Chess";
+        }
+
+        @Override
+        public BuildHandler getHandler() {
+            return new BuildHandler<>(AugmentedKnightBuilder.class);
+        }
+
+		@Override
+		public VariantType varaintType() {
+			return VariantType.FAIRY_CHESS;
+		}
+    },AUGMENTED_KNIGHT4 {
+        @Override
+        public Board startBoard() {
+            return AugmentedKnight.createBoard4();
+        }
+
+        @Override
+        public String getName() {
+            return "Augmented Knight 4 Chess";
+        }
+
+        @Override
+        public BuildHandler getHandler() {
+            return new BuildHandler<>(AugmentedKnightBuilder.class);
         }
 
 		@Override
