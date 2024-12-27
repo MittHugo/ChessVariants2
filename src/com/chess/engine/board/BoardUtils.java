@@ -3,6 +3,8 @@ package com.chess.engine.board;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.management.RuntimeErrorException;
+
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board.Builder;
 import com.chess.engine.pieces.Pawn;
@@ -230,6 +232,14 @@ public class BoardUtils {
 					.newInstance(alliance, position, true));
 		} catch (Exception e) {
 //			System.out.println("Huston we have a problem");
+		}
+	}
+	public static <T extends Piece>  Piece createPiece(Class<T> pieceClass, Alliance alliance, int position) {
+		try {
+			 return pieceClass.getDeclaredConstructor(Alliance.class, int.class, boolean.class)
+					.newInstance(alliance, position, false);
+		} catch (Exception e) {
+			throw new RuntimeErrorException(null, "Error - Error - Please Reboot or look at BoardUtils.createPiece implementations");
 		}
 	}
 

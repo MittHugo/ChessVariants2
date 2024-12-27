@@ -26,6 +26,7 @@ class GameSetup extends JDialog {
     boolean isGryphon = false;
     boolean isAtomic = false;
     boolean isRebirth = false;
+    boolean isCrazyhorse = false;
 
     private JSpinner searchDepthSpinner;
 
@@ -72,24 +73,24 @@ class GameSetup extends JDialog {
         gbc.gridy = 0;
         mainPanel.add(boardTypePanel, gbc);
 
-        // Dimension Panel
-        final JPanel dimensionPanel = new JPanel(new GridLayout(0, 1));
-        dimensionPanel.setBorder(BorderFactory.createTitledBorder("Select Board Dimension"));
-        final JRadioButton twoDButton = new JRadioButton("2D");
-        final JRadioButton threeDButton = new JRadioButton("3D");
-        final JRadioButton fiveDButton = new JRadioButton("5D");
-        final ButtonGroup dimensionGroup = new ButtonGroup();
-        dimensionGroup.add(twoDButton);
-        dimensionGroup.add(threeDButton);
-        dimensionGroup.add(fiveDButton);
-        twoDButton.setSelected(true);
-        dimensionPanel.add(twoDButton);
-        dimensionPanel.add(threeDButton);
-        dimensionPanel.add(fiveDButton);
+        // // Dimension Panel
+        // final JPanel dimensionPanel = new JPanel(new GridLayout(0, 1));
+        // dimensionPanel.setBorder(BorderFactory.createTitledBorder("Select Board Dimension"));
+        // final JRadioButton twoDButton = new JRadioButton("2D");
+        // final JRadioButton threeDButton = new JRadioButton("3D");
+        // final JRadioButton fiveDButton = new JRadioButton("5D");
+        // final ButtonGroup dimensionGroup = new ButtonGroup();
+        // dimensionGroup.add(twoDButton);
+        // dimensionGroup.add(threeDButton);
+        // dimensionGroup.add(fiveDButton);
+        // twoDButton.setSelected(true);
+        // dimensionPanel.add(twoDButton);
+        // dimensionPanel.add(threeDButton);
+        // dimensionPanel.add(fiveDButton);
 
         // Add Dimension Panel to Main Panel
-        gbc.gridy = 1;
-        mainPanel.add(dimensionPanel, gbc);
+        // gbc.gridy = 1;
+        // mainPanel.add(dimensionPanel, gbc);
 
         // Player Options Panel
         final JPanel playerPanel = new JPanel(new GridLayout(0, 3, 5, 5));
@@ -132,7 +133,7 @@ class GameSetup extends JDialog {
         fourPlayerOpponentsButton.addActionListener(e -> updatePlayerOptions(false, playerPanel));
 
         // Add Player Panel to Main Panel
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         mainPanel.add(playerPanel, gbc);
         // Game Mode Panel
         final JPanel gameModePanel = new JPanel(new GridLayout(0, 1));
@@ -142,12 +143,14 @@ class GameSetup extends JDialog {
         final JRadioButton conquerAllButton = new JRadioButton("Conquer All");
         final JRadioButton kingPromotionButton = new JRadioButton("King Promotion");
         final JRadioButton tripleCheckButton = new JRadioButton("Triple Check");
+        final JRadioButton prohibitionChess = new JRadioButton("Prohibition Chess");
         final ButtonGroup modeGroup = new ButtonGroup();
         modeGroup.add(regularChessButton);
         modeGroup.add(antiChessButton);
         modeGroup.add(conquerAllButton);
         modeGroup.add(kingPromotionButton);
         modeGroup.add(tripleCheckButton);
+        modeGroup.add(prohibitionChess);
         regularChessButton.setSelected(true);
 
         gameModePanel.add(regularChessButton);
@@ -155,9 +158,10 @@ class GameSetup extends JDialog {
         gameModePanel.add(conquerAllButton);
         gameModePanel.add(kingPromotionButton);
         gameModePanel.add(tripleCheckButton);
+        gameModePanel.add(prohibitionChess);
 
         // Add Game Mode Panel to Main Panel
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         mainPanel.add(gameModePanel, gbc);
 
         // Add Action Listeners for Modes
@@ -167,6 +171,7 @@ class GameSetup extends JDialog {
             else if (conquerAllButton.isSelected()) chessType = ChessType.ConquerAll;
             else if (kingPromotionButton.isSelected()) chessType = ChessType.KingPromotion;
             else if(tripleCheckButton.isSelected()) chessType = ChessType.TripleCheck;
+            else if(prohibitionChess.isSelected()) chessType = ChessType.ProhibitionChess;
         };
 
         regularChessButton.addActionListener(modeListener);
@@ -174,6 +179,7 @@ class GameSetup extends JDialog {
         conquerAllButton.addActionListener(modeListener);
         kingPromotionButton.addActionListener(modeListener);
         tripleCheckButton.addActionListener(modeListener);
+        prohibitionChess.addActionListener(modeListener);
 
         // Game Mode Panel
         final JPanel moveTypePanel = new JPanel(new GridLayout(0, 1));
@@ -233,6 +239,7 @@ class GameSetup extends JDialog {
         final JCheckBox lookingGlass = new JCheckBox("Looking Glass");
         final JCheckBox gryphon = new JCheckBox("Gryphon");
         final JCheckBox rebirth = new JCheckBox("Rebirth");
+        final JCheckBox crazyhorse = new JCheckBox("Crazyhorse");
 
         // Add checkboxes to the options panel
         optionsPanel.add(atomic);
@@ -241,6 +248,7 @@ class GameSetup extends JDialog {
         optionsPanel.add(lookingGlass);
         optionsPanel.add(gryphon);
         optionsPanel.add(rebirth);
+        optionsPanel.add(crazyhorse);
 
         // Add Options Panel to Main Panel
         gbc.gridy = 1; // Place below the moveTypePanel
@@ -270,6 +278,7 @@ class GameSetup extends JDialog {
             isLookingGlass = lookingGlass.isSelected();
             isGryphon = gryphon.isSelected();
             isRebirth = rebirth.isSelected();
+            isCrazyhorse = crazyhorse.isSelected();
             setVisible(false);
             Table.get().reset();
         });

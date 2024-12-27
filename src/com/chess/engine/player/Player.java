@@ -7,10 +7,12 @@ import java.util.List;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.BuildHandler;
 import com.chess.engine.pieces.King;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Rook;
+import com.chess.engine.pieces.Piece.PieceType;
 import com.chess.gui.Table;
 import com.chess.gui.Table.ChessType;
 import com.chess.engine.board.Move;
@@ -88,7 +90,50 @@ public abstract class Player {
     }
 
 	public boolean isInStalemate(BuildHandler handler) {
-		return !this.isInCheck && !hasEscapeMoves(handler);
+		return (!this.isInCheck && !hasEscapeMoves(handler)) | insufficientMaterial(handler);
+	}
+	
+	public boolean insufficientMaterial(BuildHandler handler) {
+		if(board.currentPlayer().getActivePieces().size() > 5) {
+			return false;
+		}
+		boolean returnValue = false;
+		for(int i = 0; i < board.getNumberTiles(); i++){
+			if(board.currentPlayer().getActivePieces().size() > 2) {
+				for(int j = 0; j < board.getNumberTiles(); j++){
+			
+					if(board.currentPlayer().getActivePieces().size() > 3) {
+						for(int l = 0; l < board.getNumberTiles(); l++){
+
+						}
+					}
+				}
+			} else {
+				for(Piece piece: board.currentPlayer().getActivePieces()) {
+					if(piece.getPieceType() != PieceType.KING) {
+						Collection<Move> legalMoves = BoardUtils.createPiece(piece.getClass(), 
+								Alliance.WHITE, i).calculateLegalMoves(board);
+						if(containsDestination(legalMoves, 0) && 
+							containsDestination(legalMoves, 1) &&
+							containsDestination(legalMoves, board.getNumberColumns()) &&
+							containsDestination(legalMoves, board.getNumberColumns()+1)) {
+								returnValue = true;
+							}
+					}
+				}			
+			}
+		}
+		return returnValue;
+	}
+	
+	private boolean containsDestination(Collection<Move> legalMoves, int destinationCoordinate) {
+		boolean returnValue = false;
+		for(Move move: legalMoves) {
+			if(move.getDestinationCoordinate() == destinationCoordinate) {
+				returnValue = true;
+			}
+		}
+		return returnValue;
 	}
 
 	public boolean isCastled() {
@@ -152,6 +197,12 @@ public abstract class Player {
 		if(Table.get().getChessType() != ChessType.ConquerAll) {
 			if(!Player.getKingAttacks(transitionBoard).isEmpty()) {
 				return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+			}
+		}
+		if(Table.get().getChessType() == ChessType.ProhibitionChess) {
+			if(transitionBoard.currentPlayer().isInCheck && 
+				!transitionBoard.currentPlayer().getOpponent().isInCheckmate(handler)) {
+					return new MoveTransition(this.board, move, MoveStatus.PROHIBITION);
 			}
 		}
 		if(Table.get().getChessType() == ChessType.AnitChess) {

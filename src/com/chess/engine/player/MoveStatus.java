@@ -6,7 +6,12 @@ public enum MoveStatus {
 		public boolean isDone() {
 			return true;
 		}
-	}, 
+	}, 	PROHIBITION {
+		@Override
+		public boolean isDone() {
+			return false;
+		}
+	},
 	IllegalMove {
 		@Override
 		public boolean isDone() {

@@ -573,6 +573,11 @@ public class Table extends Observable {
 			public boolean isRegular() {
 				return true;
 			}
+		},ProhibitionChess {
+			@Override
+			public boolean isRegular() {
+				return false;
+			}
 		}, AnitChess {
 			@Override
 			public boolean isRegular() {
