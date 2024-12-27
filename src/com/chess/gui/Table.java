@@ -29,6 +29,7 @@ import com.chess.engine.board.Tile;
 import com.chess.engine.pieces.Bishop;
 import com.chess.engine.pieces.King;
 import com.chess.engine.pieces.Knight;
+import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.Queen;
 import com.chess.engine.pieces.Rook;
@@ -768,6 +769,11 @@ public class Table extends Observable {
 			} else if(piece.getPieceType() == PieceType.QUEEN) {
 				return King.class;
 			} else if(piece.getPieceType() == PieceType.KING) {
+				if(Table.get() != null) {
+					if(Table.get().getChessType() == ChessType.ConquerAll) {
+						return Pawn.class;
+					}
+				}
 				return King.class;
 			}
 		}
@@ -779,6 +785,14 @@ public class Table extends Observable {
 				lowestSeenValue = instancePiece.getPieceType().getPieceValue();
 				pieceClass = instancePiece.getClass();
 			}
+		}
+		if(lowestSeenValue == Integer.MAX_VALUE) {
+			if(Table.get() != null) {
+				if(Table.get().getChessType() == ChessType.ConquerAll) {
+					return Pawn.class;
+				}
+			}
+			return King.class;
 		}
 		return pieceClass;
 	}
