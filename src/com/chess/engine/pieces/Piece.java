@@ -11,7 +11,7 @@ import com.chess.engine.board.Board;
 public abstract class Piece {
 	protected final int piecePosition;
 	protected final Alliance pieceAlliance;
-	protected final boolean isFirstMove;
+	protected boolean isFirstMove;
 	protected final PieceType pieceType;
 	private final int cachedHashCode;
 	
@@ -71,7 +71,9 @@ public abstract class Piece {
 	public Alliance getAlliance() {
 		return this.pieceAlliance;
 	}
-	
+	public void resetFirstMove() {
+		this.isFirstMove = true;
+	}
 	public boolean isFirstMove() {
 		return isFirstMove;
 	}

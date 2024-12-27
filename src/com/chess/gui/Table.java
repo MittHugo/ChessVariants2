@@ -743,6 +743,12 @@ public class Table extends Observable {
 		return false;
 	}
 
+	public boolean isRebirth() {
+		if(Table.get() != null) {
+			return gameSetup.isRebirth();
+		}
+		return false;
+	}
 
 
 	protected void moveMadeUpdate(PlayerType playerType) {

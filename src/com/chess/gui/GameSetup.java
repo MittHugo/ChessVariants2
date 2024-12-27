@@ -25,6 +25,7 @@ class GameSetup extends JDialog {
     boolean isChesireCat = false;
     boolean isGryphon = false;
     boolean isAtomic = false;
+    boolean isRebirth = false;
 
     private JSpinner searchDepthSpinner;
 
@@ -231,6 +232,7 @@ class GameSetup extends JDialog {
         final JCheckBox cheshireCat = new JCheckBox("Cheshire Cat");
         final JCheckBox lookingGlass = new JCheckBox("Looking Glass");
         final JCheckBox gryphon = new JCheckBox("Gryphon");
+        final JCheckBox rebirth = new JCheckBox("Rebirth");
 
         // Add checkboxes to the options panel
         optionsPanel.add(atomic);
@@ -238,6 +240,7 @@ class GameSetup extends JDialog {
         optionsPanel.add(cheshireCat);
         optionsPanel.add(lookingGlass);
         optionsPanel.add(gryphon);
+        optionsPanel.add(rebirth);
 
         // Add Options Panel to Main Panel
         gbc.gridy = 1; // Place below the moveTypePanel
@@ -266,6 +269,7 @@ class GameSetup extends JDialog {
             isChesireCat = cheshireCat.isSelected();
             isLookingGlass = lookingGlass.isSelected();
             isGryphon = gryphon.isSelected();
+            isRebirth = rebirth.isSelected();
             setVisible(false);
             Table.get().reset();
         });
@@ -394,5 +398,8 @@ class GameSetup extends JDialog {
     }
     public boolean isGryphon() {
         return isGryphon;
+    }
+    public boolean isRebirth() {
+        return isRebirth;
     }
 }

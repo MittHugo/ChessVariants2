@@ -53,7 +53,29 @@ public abstract class Move {
 					builder.setPiece(piece);
 				}
 			}
-
+			if(Table.get() != null) {
+				if(Table.get().isRebirth()) {
+					for(Piece piece: Table.get().getStartBoard().get().getPieces()) {
+						if(attackedPiece.getPieceType() == PieceType.PAWN){
+							if((attackedPiece.getPiecePosition()%board.getNumberColumns())==(piece.getPiecePosition()%board.getNumberColumns())
+									&& piece.getAlliance() == attackedPiece.getAlliance() && 
+									   piece.getPieceType() == attackedPiece.getPieceType() &&
+									   !board.getTile(piece.getPiecePosition()).isTileOccupied()) {
+								builder.setPiece(new Pawn(piece.getAlliance(), piece.getPiecePosition(), true));
+								// attackedPiece.resetFirstMove();
+							}
+						}
+						if(piece.getAlliance() == attackedPiece.getAlliance() && 
+								piece.getPieceType() == attackedPiece.getPieceType()
+								&& attackedPiece.getPieceType() != PieceType.PAWN) {
+							if(!board.getTile(piece.getPiecePosition()).isTileOccupied()) {
+								builder.setPiece(attackedPiece.movePiece(new MajorMove(board, attackedPiece, piece.getPiecePosition())));
+								attackedPiece.resetFirstMove();
+							}
+						}
+					}
+				}
+			}
 			builder.setPiece(this.movedPiece.movePiece(this));
 			if (this.movedPiece.getPieceType() != PieceType.JESTER) {
 				builder.lastPieceMoved(this.movedPiece.movePiece(this));
@@ -73,6 +95,7 @@ public abstract class Move {
 				builder.setMovedPiece(this.movedPiece.movePiece(this));
 			}
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
+			
 			return builder.build();
 		}
 
@@ -360,10 +383,8 @@ public abstract class Move {
 	}
 
 	public static class AtomicMove extends Move {
-    	final Piece attackedPiece;
     	public AtomicMove(final Board board, final Piece piece, final int destinationCoordinate) {
     		super(board, piece, destinationCoordinate);
-    		this.attackedPiece = null;
     	}
     	
     	@Override 
@@ -414,6 +435,32 @@ public abstract class Move {
     				builder.setPiece(piece);
     			}
     		}
+			if(Table.get() != null) {
+				if(Table.get().isRebirth()) {
+					for(Piece piece: Table.get().getStartBoard().get().getPieces()) {
+						for(Piece attackedPiece: affectedPieces) {
+							if(attackedPiece.getPieceType() == PieceType.PAWN){
+								if((attackedPiece.getPiecePosition()%board.getNumberColumns())==(piece.getPiecePosition()%board.getNumberColumns())
+										&&piece.getAlliance() == attackedPiece.getAlliance() && 
+										piece.getPieceType() == attackedPiece.getPieceType() &&
+										!board.getTile(piece.getPiecePosition()).isTileOccupied()) {
+									// builder.setPiece(attackedPiece.movePiece(new MajorMove(board, attackedPiece, piece.getPiecePosition())));
+									// attackedPiece.resetFirstMove();
+									builder.setPiece(new Pawn(piece.getAlliance(), piece.getPiecePosition(), true));
+								}
+							}
+							if(piece.getAlliance() == attackedPiece.getAlliance() && 
+									piece.getPieceType() == attackedPiece.getPieceType()
+									&& attackedPiece.getPieceType() != PieceType.PAWN) {
+								if(!board.getTile(piece.getPiecePosition()).isTileOccupied()) {
+									builder.setPiece(attackedPiece.movePiece(new MajorMove(board, attackedPiece, piece.getPiecePosition())));
+									attackedPiece.resetFirstMove();
+								}
+							}
+						}
+					}
+				}
+			}
 			if(Table.get().isChesireCat()) {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
