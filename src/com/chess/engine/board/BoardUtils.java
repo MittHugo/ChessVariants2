@@ -223,7 +223,7 @@ public class BoardUtils {
 	// 			}
 	// 			BoardUtils.buildBoard(doubleClasses, builder, numTilesPerColumn*2, numTilesPerRow, blackPawnLine, Pawn.class);
 	// }
-	private static <T extends Piece> void buildPiece(Class<T> pieceClass, Builder builder, Alliance alliance,
+	public static <T extends Piece> void buildPiece(Class<T> pieceClass, Builder builder, Alliance alliance,
 			int position) {
 		try {
 			builder.setPiece(pieceClass.getDeclaredConstructor(Alliance.class, int.class, boolean.class)

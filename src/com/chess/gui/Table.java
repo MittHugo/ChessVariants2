@@ -26,7 +26,13 @@ import com.chess.engine.board.variants.StandardBoard.StandardBuilder;
 //import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
+import com.chess.engine.pieces.Bishop;
+import com.chess.engine.pieces.King;
+import com.chess.engine.pieces.Knight;
 import com.chess.engine.pieces.Piece;
+import com.chess.engine.pieces.Queen;
+import com.chess.engine.pieces.Rook;
+import com.chess.engine.pieces.Piece.PieceType;
 import com.chess.engine.player.MoveTransition;
 import com.chess.engine.player.ai.Minimax;
 import com.chess.engine.player.ai.MonteCarloTreeSearch;
@@ -47,6 +53,7 @@ public class Table extends Observable {
 	private BoardPanel boardPanel;
 	public Board chessBoard;
 	public Supplier<Board> startBoard;
+	public Variants currentVariant = Variants.STANDARD_BOARD;
 
 	private Tile sourceTile;
 	private Tile destinationTile;
@@ -127,6 +134,7 @@ public class Table extends Observable {
 					handler = variant.getHandler();
 					chessBoard = variant.startBoard();
 					startBoard = () -> variant.startBoard();
+					currentVariant = variant;
 					reset();
 //					gameFrame.getContentPane().removeAll();
 //					gameFrame.setLayout(new BorderLayout());
@@ -727,6 +735,13 @@ public class Table extends Observable {
 		}
 		return false;
 	}
+	public boolean isGryphon() {
+		if(Table.get() != null) {
+			return gameSetup.isGryphon();
+		}
+		return false;
+	}
+
 
 
 	protected void moveMadeUpdate(PlayerType playerType) {
@@ -736,5 +751,35 @@ public class Table extends Observable {
 
 	public JFrame getGameFrame() {
 		return gameFrame;
+	}
+	// handler = variant.getHandler();
+	// chessBoard = variant.startBoard();
+	// startBoard = () -> variant.startBoard();
+	public Class<? extends Piece> getNextPieceForGryphonChess(Piece piece){
+		if(currentVariant == Variants.STANDARD_BOARD) {
+			if(piece.getPieceType() == PieceType.PAWN) {
+				return Knight.class;
+			} else if(piece.getPieceType() == PieceType.KNIGHT) {
+				return Bishop.class;
+			} else if(piece.getPieceType() == PieceType.BISHOP) {
+				return Rook.class;
+			} else if(piece.getPieceType() == PieceType.ROOK) {
+				return Queen.class;
+			} else if(piece.getPieceType() == PieceType.QUEEN) {
+				return King.class;
+			} else if(piece.getPieceType() == PieceType.KING) {
+				return King.class;
+			}
+		}
+		int lowestSeenValue = Integer.MAX_VALUE;
+		Class<? extends Piece> pieceClass = null;
+		for(Piece instancePiece: startBoard.get().getPieces()) {
+			if(piece.getPieceType().getPieceValue() < instancePiece.getPieceType().getPieceValue() 
+					&& instancePiece.getPieceType().getPieceValue() < lowestSeenValue) {
+				lowestSeenValue = instancePiece.getPieceType().getPieceValue();
+				pieceClass = instancePiece.getClass();
+			}
+		}
+		return pieceClass;
 	}
 }

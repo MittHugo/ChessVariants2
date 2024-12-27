@@ -538,7 +538,7 @@ public abstract class Piece {
 				return false;
 			}
 		}, 
-		KNIGHT(300,"N") {
+		KNIGHT(299,"N") {
 			@Override
 			public void updatePieceValue() {}
 			@Override

@@ -13,6 +13,7 @@ import com.chess.engine.board.Tile.EmptyTile;
 import com.chess.engine.board.Tile.NullTile;
 import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
+import com.chess.engine.pieces.Piece.PieceType;
 import com.chess.engine.pieces.PieceUtils.NullPiece;
 import com.chess.engine.pieces.Vectors.MotionType;
 import com.chess.engine.player.BlackPlayer;
@@ -171,10 +172,6 @@ public class Board {
 		this.redPieces = calculateActivePieces(this.gameBoard, Alliance.RED);
 		this.bluePieces = calculateActivePieces(this.gameBoard, Alliance.BLUE);
 		this.enPassantPawn = builder.enPassantPawn;
-//		whiteStandardLegalMoves.addAll(calculateLegalMoves(this.whitePieces));
-//		blackStandardLegalMoves.addAll(calculateLegalMoves(this.blackPieces));
-//		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 		setupPlayers();
 		// System.out.println("The size is " + whiteStandardLegalMoves.size());
 		updatePieceValues();
@@ -337,12 +334,20 @@ public class Board {
 	            	}
 				}
 			} else {
-        		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-        		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
+				if(Table.get().isGryphon()&&this.checkForDoubleKings(Alliance.WHITE)) {
+					this.whitePlayer = new DoubleWhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+				} else {
+					this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+				}
+				if(Table.get().isGryphon()&&this.checkForDoubleKings(Alliance.WHITE)) {
+					this.blackPlayer = new DoubleBlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+				} else {
+					this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+				}
 			}	            
 	    } else {
-            this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-            this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
+			this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        	this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 	    }
 	}
 	private void setupPlayers(WhitePlayerHandler whitePlayerHandler,BlackPlayerHandler blackPlayerHandler,
@@ -382,6 +387,18 @@ public class Board {
             this.blackPlayer = blackPlayerHandler.createPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 	    }
 	}
+	private boolean checkForDoubleKings(Alliance alliance) {
+    // Iterate over the pieces to check if there are two kings for any single alliance
+    int kingCount = 0;
+    for (Piece piece : this.getPieces()) {
+        if (piece.getPieceType() == PieceType.KING) {
+            if (piece.getAlliance() == alliance) {
+                kingCount++;
+            }
+        }
+    }
+    return kingCount > 1;
+}
 	private Collection<Move> combineLegalMoves(Collection<Move>... moves) {
 	    List<Move> combinedMoves = new ArrayList<>();
 	    for (Collection<Move> moveList : moves) {
@@ -671,26 +688,6 @@ public class Board {
 	    }
 	    return nullArea;
 	}
-//	protected boolean[] isNullArea() {
-//	    final boolean[] nullArea = new boolean[NUM_TILES];
-//	    int gridSize = NUM_TILES_PER_ROW; // Assuming the grid is square (14x14 in this case)
-//
-//	    for (int i = 0; i < NUM_TILES; i++) {
-//	        int row = i / gridSize;
-//	        int col = i % gridSize;
-//
-//	        // Check if the tile is part of any of the 3x3 boxes at the corners
-//	        boolean isInTopLeft = (row < 3 && col < 3);
-//	        boolean isInTopRight = (row < 3 && col >= gridSize - 3);
-//	        boolean isInBottomLeft = (row >= gridSize - 3 && col < 3);
-//	        boolean isInBottomRight = (row >= gridSize - 3 && col >= gridSize - 3);
-//
-//	        // If it's not in any of the corner boxes, it's a null area
-//	        nullArea[i] = !(isInTopLeft || isInTopRight || isInBottomLeft || isInBottomRight);
-//	    }
-//
-//	    return nullArea;
-//	}
 
 	
 	public static void createPawnLine(Builder builder, Alliance alliance, int startRow, int numRow) {

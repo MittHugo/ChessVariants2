@@ -23,6 +23,7 @@ class GameSetup extends JDialog {
     boolean isLookingGlass = false;
     boolean isDoubleArmy = false;
     boolean isChesireCat = false;
+    boolean isGryphon = false;
     boolean isAtomic = false;
 
     private JSpinner searchDepthSpinner;
@@ -229,12 +230,14 @@ class GameSetup extends JDialog {
         final JCheckBox doubleArmy = new JCheckBox("Double Army");
         final JCheckBox cheshireCat = new JCheckBox("Cheshire Cat");
         final JCheckBox lookingGlass = new JCheckBox("Looking Glass");
+        final JCheckBox gryphon = new JCheckBox("Gryphon");
 
         // Add checkboxes to the options panel
         optionsPanel.add(atomic);
         optionsPanel.add(doubleArmy);
         optionsPanel.add(cheshireCat);
         optionsPanel.add(lookingGlass);
+        optionsPanel.add(gryphon);
 
         // Add Options Panel to Main Panel
         gbc.gridy = 1; // Place below the moveTypePanel
@@ -262,6 +265,7 @@ class GameSetup extends JDialog {
             System.out.println(isDoubleArmy);
             isChesireCat = cheshireCat.isSelected();
             isLookingGlass = lookingGlass.isSelected();
+            isGryphon = gryphon.isSelected();
             setVisible(false);
             Table.get().reset();
         });
@@ -387,5 +391,8 @@ class GameSetup extends JDialog {
     }
     public boolean isLookingGlass() {
         return isLookingGlass;
+    }
+    public boolean isGryphon() {
+        return isGryphon;
     }
 }
