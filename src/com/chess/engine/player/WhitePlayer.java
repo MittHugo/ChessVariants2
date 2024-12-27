@@ -44,7 +44,7 @@ public class WhitePlayer extends Player {
 //		Rook leftRook;
 //		Rook rightRook;
 //		if(this.getRooks()[0].getPiecePosition() > this.getRooks()[1].getPiecePosition()) {
-//			rightRook=this.getRooks()[0];
+//			rightRook = this.getRooks()[0];
 //			leftRook = this.getRooks()[1];
 //		} else {
 //			rightRook=this.getRooks()[1];
@@ -108,6 +108,11 @@ public class WhitePlayer extends Player {
 		}
 		if(Table.get().getMoveType() == MoveType.Progressive) {
 			if(this.board.getBuilder().countCurrentMoveMaker < this.board.getBuilder().countPreviousMoveMaker+1) {
+				return this.board.whitePlayer();
+			}
+		}
+		if(Table.get().getMoveType() == MoveType.Swarm) {
+			if(!legalMoves.isEmpty()) {
 				return this.board.whitePlayer();
 			}
 		}

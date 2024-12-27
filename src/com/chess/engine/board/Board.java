@@ -14,6 +14,7 @@ import com.chess.engine.board.Tile.NullTile;
 import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.pieces.PieceUtils.NullPiece;
+import com.chess.engine.pieces.Vectors.MotionType;
 import com.chess.engine.player.BlackPlayer;
 import com.chess.engine.player.BlackPlayerHandler;
 import com.chess.engine.player.BluePlayer;
@@ -28,6 +29,7 @@ import com.chess.engine.player.variants.DoubleBluePlayer;
 import com.chess.engine.player.variants.DoubleRedPlayer;
 import com.chess.engine.player.variants.DoubleWhitePlayer;
 import com.chess.gui.Table;
+import com.chess.gui.Table.MoveType;
 import com.chess.gui.Table.PlayerCount;
 
 public class Board {
@@ -279,30 +281,6 @@ public class Board {
 		updatePieceValues();
 	}
 	
-//	private void setupPlayers() {
-//		whiteStandardLegalMoves.addAll(calculateLegalMoves(this.whitePieces));
-//		blackStandardLegalMoves.addAll(calculateLegalMoves(this.blackPieces));
-//		redStandardLegalMoves.addAll(calculateLegalMoves(this.redPieces));
-//		blueStandardLegalMoves.addAll(calculateLegalMoves(this.bluePieces));
-//		if (Table.get() != null) {
-//			if (Table.get().getPlayerCount() != null) {
-//				if (Table.get().getPlayerCount() == PlayerCount.FourTeams) {
-//					this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.redPlayer = new RedPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.bluePlayer = new BluePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//				} else if(Table.get().getPlayerCount() == PlayerCount.FourOpponents) {
-//					this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//				} else {
-//					this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//					this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-//				}
-//			}
-//		}
-//	}
 	private void setupPlayers() {
 	    // Calculate legal moves for each set of pieces
 	    whiteStandardLegalMoves.addAll(calculateLegalMoves(this.whitePieces));
@@ -584,6 +562,23 @@ public class Board {
 
 	protected Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
 		final List<Move> legalMoves = new ArrayList<>();
+		if(Table.get() !=null) {
+			if(Table.get().getMoveType() == MoveType.Swarm) {
+				for(final Piece piece: pieces) {
+					boolean hasBeenMoved = false;
+					for(int i = 0; i < builder.movedPieces.size(); i++) {
+						System.out.println(builder.movedPieces.get(i));
+						if(piece.equals(builder.movedPieces.get(i))) {
+							hasBeenMoved = true;
+						}
+					}
+					if(!hasBeenMoved) {
+						legalMoves.addAll(piece.calculateLegalMoves(this));
+					}
+				}
+				return Collections.unmodifiableList(legalMoves);
+			}
+		}
 		for(final Piece piece: pieces) {
 			legalMoves.addAll(piece.calculateLegalMoves(this));
 		}
@@ -740,6 +735,7 @@ public class Board {
 	public static class Builder{
 		Map<Integer, Piece> boardConfig;
 		Map<Integer, Boolean> disapereadConfig;
+		Map<Integer, Piece> movedPieces;
 		public Alliance nextMoveMaker;
 		public Pawn enPassantPawn;
 		public Piece lastPieceMoved;
@@ -750,6 +746,7 @@ public class Board {
 		public Builder() {
 			this.boardConfig = new HashMap<>();
 			this.disapereadConfig = new HashMap<>();
+			this.movedPieces = new HashMap<>();
 			countCurrentMoveMaker =1;
 			countPreviousMoveMaker =0;
 			if(lastPieceMoved == null) {
@@ -762,7 +759,7 @@ public class Board {
 			return this;
 		}
 
-		public Builder placeOldDisappeared(final Board board) {
+		private Builder placeOldDisappeared(final Board board) {
 			for(int i = 0; i < board.getNumberTiles(); i++) {
 				if(board.getDisappearedConfig().get(i) != null) {
 					this.disapereadConfig.put(i, true);
@@ -770,8 +767,20 @@ public class Board {
 			}
 			return this;
 		}
+		public Builder setMovedPiece(Piece movedPiece) {
+			this.movedPieces.put(this.movedPieces.size(), movedPiece);
+			return this;
+		}
+
+		private Builder forwardPropagateMovedPieces(final Board board) {
+			for(int i = 0; i < board.builder.movedPieces.size(); i++) {
+				this.movedPieces.put(i, board.builder.movedPieces.get(i));
+			}
+			return this;
+		}
 		public Builder forwardPropagateData(final Board board) {
 			placeOldDisappeared(board);
+			forwardPropagateMovedPieces(board);
 			countCurrentMoveMaker = board.builder.countCurrentMoveMaker;
 			countPreviousMoveMaker = board.builder.countPreviousMoveMaker;
 			return this;

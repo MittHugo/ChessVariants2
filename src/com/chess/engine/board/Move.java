@@ -67,6 +67,7 @@ public abstract class Move {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
 			builder.forwardPropagateData(board);
+			builder.setMovedPiece(this.movedPiece.movePiece(this));
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			return builder.build();
 		}
@@ -158,6 +159,7 @@ public abstract class Move {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
 			builder.forwardPropagateData(board);
+			builder.setMovedPiece(this.movedPiece.movePiece(this));
 			builder.setMoveMaker(board.currentPlayer().getAlliance(), board);
 			return builder.build();
 		}
@@ -185,6 +187,7 @@ public abstract class Move {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
 			builder.forwardPropagateData(board);
+			builder.setMovedPiece(this.movedPiece.movePiece(this));
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			if (this.movedPiece.getPieceType() != PieceType.JESTER) {
 				builder.lastPieceMoved(this.movedPiece.movePiece(this));
@@ -243,6 +246,7 @@ public abstract class Move {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
 			builder.forwardPropagateData(board);
+			builder.setMovedPiece(this.movedPiece.movePiece(this));
 			builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 			return builder.build();
 		}
@@ -315,6 +319,7 @@ public abstract class Move {
 			builder.setDisapeared(this.movedPiece.getPiecePosition());
 		}
 		builder.forwardPropagateData(board);
+		builder.setMovedPiece(this.movedPiece.movePiece(this));
 		builder.setMoveMaker(this.board.currentPlayer().getNextPlayer().getAlliance(), board);
 		return builder.build();
 	}
@@ -394,6 +399,7 @@ public abstract class Move {
 				builder.setDisapeared(this.movedPiece.getPiecePosition());
 			}
 			builder.forwardPropagateData(board);
+			builder.setMovedPiece(this.movedPiece.movePiece(this));
     		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance(), board);
     		return builder.build();
     	}
